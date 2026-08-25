@@ -8,7 +8,7 @@ import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from sources import ADP_A, ADP_B, PROJ, BYES, SCHEDULE, NEWS
+from sources import ADP_A, ADP_B, PROJ, BYES, SCHEDULE, DEF_VS_POS, NEWS
 from names import norm
 
 
@@ -32,6 +32,14 @@ schedule = {row[0]: row[1:] for row in rows(SCHEDULE, 19)}
 for team, wk in schedule.items():
     bye_weeks = [i + 1 for i, w in enumerate(wk) if w == "BYE"]
     assert bye_weeks == [byes[team]], f"{team} schedule bye ({bye_weeks}) doesn't match BYES ({byes[team]})"
+
+# ---- defense-vs-position ranks (for coloring the schedule strip only) ----
+defense = {}
+for team, qb, rb, wr, te in rows(DEF_VS_POS, 5):
+    defense[team] = {"QB": int(qb), "RB": int(rb), "WR": int(wr), "TE": int(te)}
+ranks_by_pos = {pos: sorted(d[pos] for d in defense.values()) for pos in ("QB", "RB", "WR", "TE")}
+for pos, ranks in ranks_by_pos.items():
+    assert ranks == list(range(1, 33)), f"DEF_VS_POS {pos} ranks aren't a clean 1-32 permutation: {ranks}"
 
 # ---- ADP consensus -------------------------------------------------------
 players = {}
@@ -242,6 +250,9 @@ with open(os.path.join(HERE, "players.json"), "w") as f:
 with open(os.path.join(HERE, "schedule.json"), "w") as f:
     json.dump(schedule, f, separators=(",", ":"), sort_keys=True)
 
+with open(os.path.join(HERE, "defense.json"), "w") as f:
+    json.dump(defense, f, separators=(",", ":"), sort_keys=True)
+
 from collections import Counter
 
 print("total players:", len(out))
@@ -250,3 +261,4 @@ print("with news:", sum(1 for r in out if r.get("tag")))
 print("missing bye:", [r["n"] for r in out if not r["bye"]][:10])
 print("wrote", os.path.join(HERE, "players.json"))
 print("wrote", os.path.join(HERE, "schedule.json"), f"({len(schedule)} teams)")
+print("wrote", os.path.join(HERE, "defense.json"), f"({len(defense)} teams)")

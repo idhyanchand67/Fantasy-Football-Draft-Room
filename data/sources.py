@@ -849,6 +849,47 @@ DAL|@NYG|WAS|BAL|@HOU|TB|@GB|@PHI|ARI|@IND|SF|TEN|PHI|@SEA|BYE|@LAR|JAX|NYG|@WAS
 ARI|@LAC|SEA|@SF|@NYG|DET|@LAR|DEN|@DAL|@SEA|LAR|@KC|WAS|PHI|BYE|NYJ|@NO|LV|SF
 """
 
+# 2025 season fantasy points allowed by position, from footballdb.com
+# (standard scoring, full 17-game season, single-sourced -- FantasyPros'
+# equivalent tool was paywalled past 10 teams). 1 = fewest points allowed to
+# that position = toughest matchup; 32 = most allowed = easiest matchup.
+# Used only to color the schedule strip -- not fed into the draft engine's
+# score, since it's a lower-confidence signal than the rest of the model.
+DEF_VS_POS = """
+KC|10|7|8|5
+CAR|7|25|10|19
+MIA|23|24|13|28
+CIN|25|31|6|32
+DET|24|10|30|21
+MIN|1|12|1|7
+BUF|4|26|9|2
+LAC|2|6|7|6
+WAS|30|29|28|31
+JAX|16|2|14|20
+NYG|22|28|23|9
+NO|11|14|12|12
+SF|20|17|20|26
+HOU|3|8|5|14
+TEN|28|22|29|24
+PIT|27|5|26|29
+DEN|8|4|2|18
+PHI|6|23|3|1
+CHI|26|20|31|13
+TB|29|18|17|27
+NE|12|3|16|16
+CLE|5|19|11|15
+SEA|9|1|4|22
+GB|13|13|18|10
+ATL|18|16|24|3
+LAR|14|9|22|17
+IND|17|11|25|25
+NYJ|31|32|19|23
+LV|15|21|21|4
+BAL|19|15|27|8
+DAL|32|27|32|11
+ARI|21|30|15|30
+"""
+
 # Aug 2026 camp/preseason news, verified from fetched sources.
 NEWS = """
 Jayden Higgins|OUT|Torn ACL, out for the entire 2026 season

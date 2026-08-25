@@ -324,6 +324,12 @@ dialog::backdrop{background:rgba(8,10,16,.55)}
 .sched .wk .wo{display:block;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;margin-top:2px}
 .sched .wk.bye{background:var(--warnSoft);border-color:color-mix(in srgb,var(--warn) 26%,transparent)}
 .sched .wk.bye .wo{color:var(--warn)}
+.sched .wk.hard{background:var(--badSoft);border-color:color-mix(in srgb,var(--bad) 26%,transparent)}
+.sched .wk.hard .wo{color:var(--bad)}
+.sched .wk.mid{background:var(--warnSoft);border-color:color-mix(in srgb,var(--warn) 22%,transparent)}
+.sched .wk.mid .wo{color:var(--warn)}
+.sched .wk.easy{background:var(--goodSoft);border-color:color-mix(in srgb,var(--good) 26%,transparent)}
+.sched .wk.easy .wo{color:var(--good)}
 
 .tabbar{display:none}
 .hint{font-size:11px;color:var(--ink3);padding:8px 12px;border-top:1px solid var(--line);background:var(--surface2)}
@@ -481,8 +487,10 @@ kbd{
 "use strict";
 const PLAYERS = /*PLAYERS_JSON*/;
 const SCHEDULE = /*SCHEDULE_JSON*/;
+const DEFENSE = /*DEFENSE_JSON*/;
 const PHOTO_BASE = "https://sleepercdn.com/content/nfl/players/";
 const POS = ["QB","RB","WR","TE","K","DST"];
+const DIFF_POS = ["QB","RB","WR","TE"]; // positions with a meaningful defense-vs-position signal
 const FLEX_OK = ["RB","WR","TE"];
 const FLEX_SHARE = {RB:0.45, WR:0.45, TE:0.10, QB:0, K:0, DST:0};
 const RISK = {OUT:0.70, INJURED:0.95, RISK:0.97};
@@ -890,15 +898,24 @@ function openInfo(id){
 
   const sched = SCHEDULE[p.t];
   if(sched){
+    const showDiff = DIFF_POS.includes(p.p);
     body.append(el("div","sectitle","2026 Schedule"));
     const wrap = el("div","sched");
     sched.forEach((wk, i) => {
       const isBye = wk === "BYE";
-      const cell = el("div","wk" + (isBye ? " bye" : ""));
+      let diff = "";
+      if(!isBye && showDiff){
+        const opp = wk.replace("@","");
+        const rank = DEFENSE[opp] && DEFENSE[opp][p.p];
+        if(rank != null) diff = rank <= 11 ? " hard" : rank <= 21 ? " mid" : " easy";
+      }
+      const cell = el("div","wk" + (isBye ? " bye" : diff));
       cell.append(el("span","wn", "W"+(i+1)), el("span","wo", wk));
       wrap.append(cell);
     });
     body.append(wrap);
+    if(showDiff) body.append(el("p","infonote",
+      "Matchup color: red = tough defense, yellow = average, green = favorable — 2025 fantasy points allowed by position (single-sourced, standard scoring)."));
   }
 
   document.getElementById("infoDraft").textContent = "Draft " + p.n;
@@ -1131,7 +1148,7 @@ render();
 
 /* exposed so the draft engine can be exercised outside the page */
 window.WarRoom = {
-  model, draft, undo, render, byId, PLAYERS, SCHEDULE, openInfo, teamOnPick, rounds, totalPicks, label, TUNE,
+  model, draft, undo, render, byId, PLAYERS, SCHEDULE, DEFENSE, openInfo, teamOnPick, rounds, totalPicks, label, TUNE,
   get state(){ return S; },
   set state(v){ S = v; }
 };

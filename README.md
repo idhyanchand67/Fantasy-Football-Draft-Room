@@ -61,10 +61,18 @@ It also flags positional runs, tier cliffs, bye-week stacking, and players
 falling well past their ADP.
 
 Tapping a player opens their card — photo, stats, news, and full 2026
-schedule — with
-a Draft button inside, rather than drafting immediately. Two exceptions stay
-one-tap for speed during a live draft: the big recommendation button, and
-pressing **Enter** in search to draft the top result.
+schedule — with a Draft button inside, rather than drafting immediately. Two
+exceptions stay one-tap for speed during a live draft: the big recommendation
+button, and pressing **Enter** in search to draft the top result.
+
+Each week in the schedule is colored by matchup difficulty for QB/RB/WR/TE —
+red is a tough defense at that position, green is favorable, yellow is
+average. This is necessarily based on **2025** defense-vs-position performance
+(the 2026 season hasn't been played yet), from a single source
+([footballdb.com](https://www.footballdb.com/), standard scoring — the
+closest full-season equivalent that wasn't paywalled), so treat it as a
+rough signal, not a precise one. K and DST don't get a color; there's no
+comparably meaningful "matchup difficulty" stat for either.
 
 ## Is it actually better
 
@@ -114,6 +122,7 @@ data/live_status.json auto-refreshed output of fetch_news.py (see below)
 data/photos.json      auto-refreshed name -> Sleeper player_id, for headshots
 data/players.json     the built dataset — 307 players
 data/schedule.json    2026 weekly schedule, by team (18 weeks, 32 teams)
+data/defense.json     2025 defense-vs-position ranks, by team (colors the schedule)
 scripts/build.mjs     injects the dataset into the template
 scripts/tune.mjs      searches TUNE's scoring constants against the backtest
 test/backtest.js      the engine-vs-ADP backtest, shared by tests and the tuner

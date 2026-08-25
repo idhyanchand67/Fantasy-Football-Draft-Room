@@ -154,6 +154,18 @@ ok(schedTeams.every(t => SCHED[t].length === 18), "every team's schedule has 18 
 ok(schedTeams.every(t => SCHED[t].filter(w => w === "BYE").length === 1), "every team has exactly one bye week in its schedule");
 ok(P.every(p => p.p === "DST" || SCHED[p.t]), "every player's team has a schedule entry");
 
+const DEF = W.DEFENSE;
+const defTeams = Object.keys(DEF);
+ok(defTeams.length === 32, "defense-vs-position covers all 32 teams", String(defTeams.length));
+["QB","RB","WR","TE"].forEach(pos => {
+  const ranks = defTeams.map(t => DEF[t][pos]).sort((a,b) => a-b);
+  const clean = ranks.every((r,i) => r === i+1);
+  ok(clean, `defense-vs-position ${pos} ranks are a clean 1-32 permutation`, ranks.join(","));
+});
+
+const photographed = P.filter(p => p.photo);
+ok(photographed.length > 250, "most of the pool has a photo id", String(photographed.length));
+
 // ------------------------------------------------------------------ render
 console.log("\n== render integrity ==");
 S.picks = []; S.slot = 5;
