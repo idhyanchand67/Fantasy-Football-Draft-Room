@@ -1,0 +1,51 @@
+name: Refresh live news
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # daily, 13:00 UTC (~9am ET / 6am PT)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch live injury status from Sleeper
+        run: python3 data/fetch_news.py
+
+      - name: Merge into players.json
+        run: python3 data/build.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      # Gate the commit on the full suite, not just a successful fetch — a
+      # bad merge (e.g. broken tier monotonicity) fails loud here instead
+      # of shipping to main.
+      - name: Build and test before trusting this data
+        run: npm test
+
+      - name: Commit and push if anything changed
+        run: |
+          git config user.name "draft-war-room-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/live_status.json data/players.json index.html
+          if git diff --cached --quiet; then
+            echo "no change, nothing to commit"
+          else
+            git commit -m "Refresh live injury status from Sleeper [automated]"
+            git push
+          fi

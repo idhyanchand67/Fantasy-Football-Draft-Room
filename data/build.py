@@ -4,22 +4,12 @@ consensus ADP, projections, bye weeks, camp news, positional tiers.
 
     python3 data/build.py
 """
-import json, os, re, sys
+import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from sources import ADP_A, ADP_B, PROJ, BYES, NEWS
-
-SUFFIX = {"jr", "sr", "ii", "iii", "iv", "v"}
-ALIAS = {"hollywood brown": "marquise brown", "kenny gainwell": "kenneth gainwell"}
-
-
-def norm(name):
-    s = name.lower().replace(".", "").replace("'", "").replace("-", " ")
-    s = re.sub(r"[^a-z ]", " ", s)
-    parts = [p for p in s.split() if p and p not in SUFFIX]
-    s = " ".join(parts)
-    return ALIAS.get(s, s)
+from names import norm
 
 
 def rows(block, n):
@@ -137,6 +127,22 @@ for key, p in players.items():
 unmatched = [k for k in newsmap if k not in players]
 if unmatched:
     print("NEWS rows not matched to a player:", unmatched)
+
+# ---- live status (optional, auto-refreshed by data/fetch_news.py) --------
+# Hand-curated NEWS entries above always win — they're verified prose with
+# real nuance. Live status only fills in players nobody has written a note
+# for, so a bot run can never silently overwrite a human's judgment call.
+live_path = os.path.join(HERE, "live_status.json")
+if os.path.exists(live_path):
+    with open(live_path) as f:
+        live = json.load(f)
+    filled = 0
+    for key, p in players.items():
+        if not p.get("tag") and key in live:
+            p["tag"] = live[key]["tag"]
+            p["note"] = live[key]["note"]
+            filled += 1
+    print(f"live status filled {filled} players not covered by manual news")
 
 # ---- positional rank + tiers --------------------------------------------
 # Gap-splitting collapses on smooth curves (it put 27 of 36 QBs in one tier), so

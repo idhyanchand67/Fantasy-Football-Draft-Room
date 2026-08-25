@@ -98,7 +98,10 @@ hand-picked baseline.
 index.html            the built page — this is the deliverable
 src/template.html     source: markup, styles, and the draft engine
 data/sources.py       raw scraped ADP, projections, byes, and camp news
+data/names.py         shared name normalization (ADP, projections, news, live status)
 data/build.py         merges those into players.json (consensus, tiers)
+data/fetch_news.py    pulls live injury status from Sleeper's API
+data/live_status.json auto-refreshed output of fetch_news.py (see below)
 data/players.json     the built dataset — 307 players
 scripts/build.mjs     injects the dataset into the template
 scripts/tune.mjs      searches TUNE's scoring constants against the backtest
@@ -131,6 +134,30 @@ down the ranking, so a bad merge fails the build instead of shipping a lie.
 To adapt to a different season, replace the three data blocks in `sources.py`
 with current numbers in the same format. Nothing else needs to change.
 
+### Live injury status
+
+`data/sources.py`'s `NEWS` block is still hand-curated prose, and it always
+wins — that's real judgment a script can't replace. But it goes stale as the
+season moves. `.github/workflows/refresh-news.yml` runs daily, pulling
+current `injury_status` for every rostered QB/RB/WR/TE from
+[Sleeper's free player API](https://docs.sleeper.com/), mapping it to a tag
+(`Questionable`→`RISK`, `Doubtful`/`Out`/`IR`/`PUP`/`NA`/`Sus`→`OUT`), and
+writing `data/live_status.json`. `build.py` then fills in any player who
+doesn't already have a manual `NEWS` entry — so a hand-written note about,
+say, a rising backup never gets clobbered by a terser auto-generated one.
+Auto-generated notes are labeled `(auto, via Sleeper)` so it's always
+obvious which is which.
+
+The workflow only commits and pushes if the *full test suite* still passes
+against the merged data — a bad fetch or a mapping bug fails the run
+instead of shipping bad data to the live site. Run it by hand with:
+
+```bash
+python3 data/fetch_news.py   # writes data/live_status.json
+python3 data/build.py        # merges it in (manual NEWS still wins)
+npm run build
+```
+
 ### Scoring formats
 
 The board ships tuned for full PPR, 1QB, 12 teams. **Setup** in the UI changes
@@ -146,7 +173,10 @@ swapping the `PROJ` block in `sources.py` for that format's numbers.
 The dataset was assembled in **August 2026** from public sources: ADP as a
 consensus of two independent lists, season projections from a third, 2026 bye
 weeks, and roughly seventy verified late-August camp and injury notes.
-Attribution for each block is in the comments at the top of `sources.py`.
+Attribution for each block is in the comments at the top of `sources.py`. ADP
+and projections are that August snapshot and don't move on their own; injury
+status is the exception — it refreshes daily from Sleeper (see
+[Live injury status](#live-injury-status) above).
 
 Two caveats worth carrying forward. Projections are one provider's opinion, not
 fact — the engine is only as good as they are. And this data was gathered for
