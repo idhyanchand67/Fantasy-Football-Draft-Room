@@ -310,6 +310,8 @@ dialog::backdrop{background:rgba(8,10,16,.55)}
 
 /* ---------- player info dialog ---------- */
 #info{max-width:480px}
+.infoheadrow{display:flex;align-items:center;gap:12px}
+.infophoto{width:56px;height:56px;border-radius:10px;object-fit:cover;background:var(--surface3);flex:none}
 .infostats{display:flex;gap:8px;flex-wrap:wrap}
 .infonote{font-size:12.5px;color:var(--ink2);line-height:1.5}
 .sectitle{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3);font-weight:700}
@@ -479,6 +481,7 @@ kbd{
 "use strict";
 const PLAYERS = /*PLAYERS_JSON*/;
 const SCHEDULE = /*SCHEDULE_JSON*/;
+const PHOTO_BASE = "https://sleepercdn.com/content/nfl/players/";
 const POS = ["QB","RB","WR","TE","K","DST"];
 const FLEX_OK = ["RB","WR","TE"];
 const FLEX_SHARE = {RB:0.45, WR:0.45, TE:0.10, QB:0, K:0, DST:0};
@@ -848,8 +851,21 @@ function openInfo(id){
 
   const head = document.getElementById("infoHead");
   head.innerHTML = "";
-  head.append(el("h2", null, p.n));
-  head.append(el("p", null, `${p.t}${p.bye ? " · Bye " + p.bye : ""} · ${p.p}${p.pr} · Tier ${p.tier}`));
+  const headRow = el("div","infoheadrow");
+  if(p.photo){
+    const img = document.createElement("img");
+    img.className = "infophoto";
+    img.src = PHOTO_BASE + p.photo + ".jpg";
+    img.alt = "";
+    img.loading = "lazy";
+    img.onerror = () => img.remove();
+    headRow.append(img);
+  }
+  const headTxt = el("div");
+  headTxt.append(el("h2", null, p.n));
+  headTxt.append(el("p", null, `${p.t}${p.bye ? " · Bye " + p.bye : ""} · ${p.p}${p.pr} · Tier ${p.tier}`));
+  headRow.append(headTxt);
+  head.append(headRow);
 
   const body = document.getElementById("infoBody");
   body.innerHTML = "";

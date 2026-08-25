@@ -5,7 +5,10 @@ they come off the board; it re-ranks everyone left after every pick using value
 over replacement, positional scarcity, your roster needs, and the odds a given
 player survives to your next turn.
 
-One HTML file, no build step required to use it, no network calls at runtime.
+One HTML file, no build step required to use it. The only runtime network
+calls are headshot images (loaded from Sleeper's CDN when you open a
+player's card) — everything else, including the whole draft engine, is
+self-contained and works offline.
 
 ![The board mid-draft](docs/screenshot-light.png)
 
@@ -57,7 +60,8 @@ the last rounds and then become mandatory.
 It also flags positional runs, tier cliffs, bye-week stacking, and players
 falling well past their ADP.
 
-Tapping a player opens their card — stats, news, and full 2026 schedule — with
+Tapping a player opens their card — photo, stats, news, and full 2026
+schedule — with
 a Draft button inside, rather than drafting immediately. Two exceptions stay
 one-tap for speed during a live draft: the big recommendation button, and
 pressing **Enter** in search to draft the top result.
@@ -105,8 +109,9 @@ src/template.html     source: markup, styles, and the draft engine
 data/sources.py       raw scraped ADP, projections, byes, schedule, camp news
 data/names.py         shared name normalization (ADP, projections, news, live status)
 data/build.py         merges those into players.json (consensus, tiers)
-data/fetch_news.py    pulls live injury status from Sleeper's API
+data/fetch_news.py    pulls live injury status and photo ids from Sleeper's API
 data/live_status.json auto-refreshed output of fetch_news.py (see below)
+data/photos.json      auto-refreshed name -> Sleeper player_id, for headshots
 data/players.json     the built dataset — 307 players
 data/schedule.json    2026 weekly schedule, by team (18 weeks, 32 teams)
 scripts/build.mjs     injects the dataset into the template

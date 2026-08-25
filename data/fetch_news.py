@@ -1,11 +1,19 @@
 """
-Pulls current NFL injury status from Sleeper's free public player API and
-writes data/live_status.json — a normalized-name -> {tag, note} map that
-data/build.py layers UNDER the hand-curated NEWS block in sources.py (manual
-entries always win; this only fills in players nobody has written a note
-for). Meant to run on a schedule — see .github/workflows/refresh-news.yml —
-not in a loop: Sleeper's /v1/players/nfl is a ~5MB dump of the entire league
-and their docs ask that it not be polled more than a few times a day.
+Pulls current NFL player data from Sleeper's free public player API in a
+single fetch and writes two files:
+
+  data/live_status.json  normalized-name -> {tag, note}, layered UNDER the
+                          hand-curated NEWS block in sources.py by build.py
+                          (manual entries always win; this only fills gaps)
+  data/photos.json       normalized-name -> Sleeper player_id, used to build
+                          headshot URLs (sleepercdn.com/content/nfl/players/
+                          {id}.jpg) — no manual equivalent, always used as-is
+
+One fetch feeds both outputs on purpose: Sleeper's /v1/players/nfl is a
+~5MB dump of the entire league and their docs ask that it not be polled
+more than a few times a day, so there's no reason to hit it twice for two
+different derived files. Meant to run on a schedule — see
+.github/workflows/refresh-news.yml — not in a loop.
 
     python3 data/fetch_news.py
 """
@@ -49,26 +57,42 @@ def main():
         # response means a bad or partial fetch, not a quiet injury week.
         raise SystemExit(f"Sleeper returned only {len(raw)} players — refusing to trust this response")
 
-    out = {}
-    for p in raw.values():
+    tags = {}
+    photos = {}
+    for pid, p in raw.items():
         pos = p.get("position")
-        status = p.get("injury_status")
         name = p.get("full_name")
-        if pos not in POSITIONS or not status or not name:
+        if pos not in POSITIONS or not name:
+            continue
+        key = norm(name)
+
+        # only currently-rostered players, to keep this scoped to who could
+        # plausibly be in our draft pool and reduce stale-photo/name-collision risk
+        if p.get("team"):
+            photos[key] = pid
+
+        status = p.get("injury_status")
+        if not status:
             continue
         tag = STATUS_TAG.get(status)
         if not tag:
             continue
-        out[norm(name)] = {"tag": tag, "note": note_for(status, p.get("injury_body_part"))}
+        tags[key] = {"tag": tag, "note": note_for(status, p.get("injury_body_part"))}
 
     # Sanity cap: a mapping bug would tag an implausible fraction of the
     # league. Real in-season injury slates run a few percent of players.
-    if len(out) > 400:
-        raise SystemExit(f"{len(out)} players tagged — implausibly high, refusing to write live_status.json")
+    if len(tags) > 400:
+        raise SystemExit(f"{len(tags)} players tagged — implausibly high, refusing to write live_status.json")
+    if len(photos) < 1000:
+        raise SystemExit(f"only {len(photos)} rostered players found — refusing to trust this response")
 
     with open(os.path.join(HERE, "live_status.json"), "w") as f:
-        json.dump(out, f, indent=1, sort_keys=True)
-    print(f"wrote {len(out)} live statuses to data/live_status.json")
+        json.dump(tags, f, indent=1, sort_keys=True)
+    print(f"wrote {len(tags)} live statuses to data/live_status.json")
+
+    with open(os.path.join(HERE, "photos.json"), "w") as f:
+        json.dump(photos, f, separators=(",", ":"), sort_keys=True)
+    print(f"wrote {len(photos)} player photo ids to data/photos.json")
 
 
 if __name__ == "__main__":

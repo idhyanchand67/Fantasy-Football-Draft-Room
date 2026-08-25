@@ -150,6 +150,18 @@ if os.path.exists(live_path):
             filled += 1
     print(f"live status filled {filled} players not covered by manual news")
 
+# ---- photos (optional, auto-refreshed by data/fetch_news.py) -------------
+photos_path = os.path.join(HERE, "photos.json")
+if os.path.exists(photos_path):
+    with open(photos_path) as f:
+        photos = json.load(f)
+    matched = 0
+    for key, p in players.items():
+        if key in photos:
+            p["photo"] = photos[key]
+            matched += 1
+    print(f"photos matched for {matched} of {len(players)} players")
+
 # ---- positional rank + tiers --------------------------------------------
 # Gap-splitting collapses on smooth curves (it put 27 of 36 QBs in one tier), so
 # cluster instead. 1-D k-means on sorted values yields contiguous, balanced tiers.
@@ -220,6 +232,8 @@ for key, p in sorted(players.items(), key=lambda kv: (kv[1]["adp"] is None, kv[1
     if p.get("tag"):
         rec["tag"] = p["tag"]
         rec["note"] = p["note"]
+    if p.get("photo"):
+        rec["photo"] = p["photo"]
     out.append(rec)
 
 with open(os.path.join(HERE, "players.json"), "w") as f:
