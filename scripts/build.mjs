@@ -17,12 +17,17 @@ const read = p => fs.readFileSync(path.join(root, p), "utf8");
 
 const template = read("src/template.html");
 const players = read("data/players.json");
+const schedule = read("data/schedule.json");
 
 if (!template.includes("/*PLAYERS_JSON*/"))
   throw new Error("src/template.html is missing the /*PLAYERS_JSON*/ placeholder");
+if (!template.includes("/*SCHEDULE_JSON*/"))
+  throw new Error("src/template.html is missing the /*SCHEDULE_JSON*/ placeholder");
 
 const count = JSON.parse(players).length;
-const fragment = template.replace("/*PLAYERS_JSON*/", players);
+const fragment = template
+  .replace("/*PLAYERS_JSON*/", players)
+  .replace("/*SCHEDULE_JSON*/", schedule);
 
 const standalone = `<!doctype html>
 <html lang="en">

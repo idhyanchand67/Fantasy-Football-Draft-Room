@@ -308,6 +308,21 @@ dialog::backdrop{background:rgba(8,10,16,.55)}
   padding-top:4px;border-top:1px solid var(--line)}
 .dfoot{padding:12px 18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;background:var(--surface2)}
 
+/* ---------- player info dialog ---------- */
+#info{max-width:480px}
+.infostats{display:flex;gap:8px;flex-wrap:wrap}
+.infonote{font-size:12.5px;color:var(--ink2);line-height:1.5}
+.sectitle{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3);font-weight:700}
+.sched{display:flex;gap:5px;overflow-x:auto;padding:2px 1px 6px}
+.sched .wk{
+  flex:none;min-width:42px;text-align:center;background:var(--surface2);border:1px solid var(--line);
+  border-radius:7px;padding:5px 4px;
+}
+.sched .wk .wn{display:block;font-size:9px;color:var(--ink3);font-weight:700;letter-spacing:.03em}
+.sched .wk .wo{display:block;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;margin-top:2px}
+.sched .wk.bye{background:var(--warnSoft);border-color:color-mix(in srgb,var(--warn) 26%,transparent)}
+.sched .wk.bye .wo{color:var(--warn)}
+
 .tabbar{display:none}
 .hint{font-size:11px;color:var(--ink3);padding:8px 12px;border-top:1px solid var(--line);background:var(--surface2)}
 kbd{
@@ -392,7 +407,7 @@ kbd{
         </div>
         <div class="rows" id="rows"></div>
         <div class="hint">
-          Tap a player to record the pick that's on the clock.
+          Tap a player to see stats, schedule, and news — draft from there.
           <kbd>/</kbd> search · <kbd>Enter</kbd> draft top result · <kbd>U</kbd> undo
         </div>
       </section>
@@ -450,9 +465,20 @@ kbd{
   </form>
 </dialog>
 
+<dialog id="info">
+  <div class="dhead" id="infoHead"></div>
+  <div class="dbody" id="infoBody"></div>
+  <div class="dfoot">
+    <button class="btn" id="infoClose">Close</button>
+    <span style="flex:1"></span>
+    <button class="btn primary" id="infoDraft">Draft</button>
+  </div>
+</dialog>
+
 <script>
 "use strict";
 const PLAYERS = /*PLAYERS_JSON*/;
+const SCHEDULE = /*SCHEDULE_JSON*/;
 const POS = ["QB","RB","WR","TE","K","DST"];
 const FLEX_OK = ["RB","WR","TE"];
 const FLEX_SHARE = {RB:0.45, WR:0.45, TE:0.10, QB:0, K:0, DST:0};
@@ -763,6 +789,8 @@ function renderRec(M){
   const body = el("div","recbody");
   const main = el("div","recmain");
   const nameCol = el("div","recname");
+  nameCol.style.cursor = "pointer";
+  nameCol.onclick = () => openInfo(top.id);
   nameCol.append(el("h3","nm cond", top.n));
   const sub = el("div","sub");
   sub.append(posChip(top));
@@ -789,7 +817,7 @@ function renderRec(M){
   const alts = el("div","alts");
   ranked.slice(1,5).forEach((p,i) => {
     const r = el("div","altrow");
-    r.onclick = () => draft(p.id);
+    r.onclick = () => openInfo(p.id);
     r.append(el("span","rk cond", String(i+2)), posChip(p));
     const nm = el("div");
     nm.append(el("div","anm", p.n));
@@ -809,6 +837,57 @@ function stat(lab, val, hi){
   return s;
 }
 function posChip(p){ return el("span","pos "+p.p, p.p); }
+
+/* ---------- player info dialog ---------- */
+let infoId = null;
+function openInfo(id){
+  const M = model();
+  const p = M.avail.find(x => x.id === id);
+  if(!p) return;
+  infoId = id;
+
+  const head = document.getElementById("infoHead");
+  head.innerHTML = "";
+  head.append(el("h2", null, p.n));
+  head.append(el("p", null, `${p.t}${p.bye ? " · Bye " + p.bye : ""} · ${p.p}${p.pr} · Tier ${p.tier}`));
+
+  const body = document.getElementById("infoBody");
+  body.innerHTML = "";
+
+  const stats = el("div","infostats");
+  stats.append(stat("Proj", fmt1(p.proj)));
+  stats.append(stat("VOR", (p.vor>0?"+":"") + Math.round(p.vor), true));
+  stats.append(stat("ADP", String(Math.round(p.adp))));
+  if(M.myNext) stats.append(stat("Survival", Math.round(p.surv*100)+"%"));
+  body.append(stats);
+
+  if(p.tag){
+    const note = el("div","infonote");
+    note.append(el("span","tag "+p.tag, p.tag === "INJURED" ? "INJ" : p.tag));
+    if(p.note) note.append(document.createTextNode(" " + p.note));
+    body.append(note);
+  }
+
+  const rs = el("div","reasons");
+  reasonsFor(p, M).forEach(r => rs.append(el("span","reason "+r.t, r.s)));
+  if(rs.children.length) body.append(rs);
+
+  const sched = SCHEDULE[p.t];
+  if(sched){
+    body.append(el("div","sectitle","2026 Schedule"));
+    const wrap = el("div","sched");
+    sched.forEach((wk, i) => {
+      const isBye = wk === "BYE";
+      const cell = el("div","wk" + (isBye ? " bye" : ""));
+      cell.append(el("span","wn", "W"+(i+1)), el("span","wo", wk));
+      wrap.append(cell);
+    });
+    body.append(wrap);
+  }
+
+  document.getElementById("infoDraft").textContent = "Draft " + p.n;
+  document.getElementById("info").showModal();
+}
 
 function renderRows(M){
   const box = document.getElementById("rows");
@@ -833,8 +912,9 @@ function renderRows(M){
   shown.forEach((p,i) => {
     const r = el("div","row");
     r.tabIndex = 0;
-    r.onclick = () => draft(p.id);
-    r.onkeydown = e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); draft(p.id); } };
+    r.dataset.id = p.id;
+    r.onclick = () => openInfo(p.id);
+    r.onkeydown = e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); openInfo(p.id); } };
     r.append(el("span","idx", String(i+1)));
     r.append(posChip(p));
     const nm = el("div","pname");
@@ -989,7 +1069,7 @@ document.getElementById("search").addEventListener("input", e => { query = e.tar
 document.getElementById("search").addEventListener("keydown", e => {
   if(e.key === "Enter"){
     const first = document.querySelector("#rows .row");
-    if(first) first.click();
+    if(first) draft(first.dataset.id);
     e.target.value = ""; query = ""; render();
   }
 });
@@ -1026,11 +1106,16 @@ dlg.addEventListener("close", () => {
   }
 });
 
+/* player info */
+const infoDlg = $("info");
+$("infoClose").onclick = () => infoDlg.close();
+$("infoDraft").onclick = () => { if(infoId) draft(infoId); infoDlg.close(); };
+
 render();
 
 /* exposed so the draft engine can be exercised outside the page */
 window.WarRoom = {
-  model, draft, undo, render, byId, PLAYERS, teamOnPick, rounds, totalPicks, label, TUNE,
+  model, draft, undo, render, byId, PLAYERS, SCHEDULE, openInfo, teamOnPick, rounds, totalPicks, label, TUNE,
   get state(){ return S; },
   set state(v){ S = v; }
 };

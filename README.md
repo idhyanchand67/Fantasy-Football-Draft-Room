@@ -57,6 +57,11 @@ the last rounds and then become mandatory.
 It also flags positional runs, tier cliffs, bye-week stacking, and players
 falling well past their ADP.
 
+Tapping a player opens their card — stats, news, and full 2026 schedule — with
+a Draft button inside, rather than drafting immediately. Two exceptions stay
+one-tap for speed during a live draft: the big recommendation button, and
+pressing **Enter** in search to draft the top result.
+
 ## Is it actually better
 
 `npm test` simulates complete drafts from all twelve slots against a competent
@@ -97,12 +102,13 @@ hand-picked baseline.
 ```
 index.html            the built page — this is the deliverable
 src/template.html     source: markup, styles, and the draft engine
-data/sources.py       raw scraped ADP, projections, byes, and camp news
+data/sources.py       raw scraped ADP, projections, byes, schedule, camp news
 data/names.py         shared name normalization (ADP, projections, news, live status)
 data/build.py         merges those into players.json (consensus, tiers)
 data/fetch_news.py    pulls live injury status from Sleeper's API
 data/live_status.json auto-refreshed output of fetch_news.py (see below)
 data/players.json     the built dataset — 307 players
+data/schedule.json    2026 weekly schedule, by team (18 weeks, 32 teams)
 scripts/build.mjs     injects the dataset into the template
 scripts/tune.mjs      searches TUNE's scoring constants against the backtest
 test/backtest.js      the engine-vs-ADP backtest, shared by tests and the tuner

@@ -8,7 +8,7 @@ import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from sources import ADP_A, ADP_B, PROJ, BYES, NEWS
+from sources import ADP_A, ADP_B, PROJ, BYES, SCHEDULE, NEWS
 from names import norm
 
 
@@ -26,6 +26,12 @@ def rows(block, n):
 
 
 byes = {t: int(w) for t, w in rows(BYES, 2)}
+
+# ---- weekly schedule (team -> 18 opponents, "@" prefix = away, or "BYE") --
+schedule = {row[0]: row[1:] for row in rows(SCHEDULE, 19)}
+for team, wk in schedule.items():
+    bye_weeks = [i + 1 for i, w in enumerate(wk) if w == "BYE"]
+    assert bye_weeks == [byes[team]], f"{team} schedule bye ({bye_weeks}) doesn't match BYES ({byes[team]})"
 
 # ---- ADP consensus -------------------------------------------------------
 players = {}
@@ -219,6 +225,9 @@ for key, p in sorted(players.items(), key=lambda kv: (kv[1]["adp"] is None, kv[1
 with open(os.path.join(HERE, "players.json"), "w") as f:
     json.dump(out, f, separators=(",", ":"))
 
+with open(os.path.join(HERE, "schedule.json"), "w") as f:
+    json.dump(schedule, f, separators=(",", ":"), sort_keys=True)
+
 from collections import Counter
 
 print("total players:", len(out))
@@ -226,3 +235,4 @@ print("by pos:", dict(Counter(r["p"] for r in out)))
 print("with news:", sum(1 for r in out if r.get("tag")))
 print("missing bye:", [r["n"] for r in out if not r["bye"]][:10])
 print("wrote", os.path.join(HERE, "players.json"))
+print("wrote", os.path.join(HERE, "schedule.json"), f"({len(schedule)} teams)")

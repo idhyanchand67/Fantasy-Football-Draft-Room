@@ -147,6 +147,13 @@ const tagged = P.filter(p => p.tag);
 ok(tagged.length > 50, "news attached to a meaningful share of the pool", String(tagged.length));
 ok(tagged.every(p => p.note && p.note.length > 8), "every tagged player carries a readable note");
 
+const SCHED = W.SCHEDULE;
+const schedTeams = Object.keys(SCHED);
+ok(schedTeams.length === 32, "schedule covers all 32 teams", String(schedTeams.length));
+ok(schedTeams.every(t => SCHED[t].length === 18), "every team's schedule has 18 weeks");
+ok(schedTeams.every(t => SCHED[t].filter(w => w === "BYE").length === 1), "every team has exactly one bye week in its schedule");
+ok(P.every(p => p.p === "DST" || SCHED[p.t]), "every player's team has a schedule entry");
+
 // ------------------------------------------------------------------ render
 console.log("\n== render integrity ==");
 S.picks = []; S.slot = 5;
@@ -158,9 +165,22 @@ ok(doc.querySelector("#rec .nm").textContent.length > 2, "recommendation card na
 ok(doc.querySelectorAll("#meters .meter").length === 4, "four supply meters render");
 ok(doc.querySelectorAll("#league .tm").length === 12, "league board shows 12 teams");
 ok(doc.querySelectorAll("#slots .slot").length === W.rounds(), "roster shows every slot");
+
+// clicking a row now opens the info dialog instead of drafting directly —
+// drafting happens from the Draft button inside it (see the session where
+// this changed: fast one-click drafting from the search box's Enter key
+// was deliberately kept working via a separate path, tested below)
 const firstRow = doc.querySelector("#rows .row");
+const firstId = firstRow.dataset.id;
 firstRow.dispatchEvent(new w.Event("click", { bubbles: true }));
-ok(W.state.picks.length === 1, "clicking a row records a pick");
+ok(doc.getElementById("info").open, "clicking a row opens the player info dialog");
+ok(W.state.picks.length === 0, "clicking a row does not draft directly");
+ok(doc.getElementById("infoHead").textContent.includes(W.byId.get(firstId).n),
+   "the info dialog shows the clicked player's name");
+doc.getElementById("infoDraft").click();
+ok(W.state.picks.length === 1 && W.state.picks[0] === firstId,
+   "the dialog's Draft button records the pick");
+ok(!doc.getElementById("info").open, "the dialog closes after drafting");
 W.undo();
 ok(W.state.picks.length === 0, "undo removes it");
 
