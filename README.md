@@ -18,6 +18,7 @@ To rebuild it from source:
 ```bash
 npm run build      # inject the dataset into the template
 npm test           # run the engine suite in real Chromium (needs playwright)
+npm run tune       # search the scoring constants against the backtest
 npm run serve      # http://localhost:8080
 ```
 
@@ -66,21 +67,30 @@ lineup.
 slot  1: engine 2176  vs  ADP 2070   +106
 slot  2: engine 2165  vs  ADP 2036   +128
 ...
-average edge: +113.7 projected starter points
+average edge: +121.0 projected starter points
 ```
 
-The engine wins from every slot, averaging **+114 projected starter points**
-over a season. Roughly seven points a week.
+The engine wins from every slot, averaging **+121 projected starter points**
+over a season. Just over seven points a week.
 
 Worth being precise about what that is and isn't. It's a measure against one
 scripted opponent, on one set of projections, with no in-season management. It
 is not a claim about your league. The first version of this baseline never
 drafted a kicker or defense, which flattered the engine to +273; that was a bug
-in the test, and +114 is the honest number.
+in the test, and +121 is the honest number.
 
 The suite has 58 assertions covering snake order, replacement-level behavior
 under runs and droughts, survival math, roster-need weighting, endgame lineup
 legality, dataset integrity, and render output.
+
+The scoring constants that shape the recommendation (how hard to discount a
+backup QB, a second TE, an extra RB past your bench needs, and so on) live in
+`src/template.html`'s `TUNE` object and used to be hand-picked. `npm run tune`
+(`scripts/tune.mjs`) now searches them by coordinate ascent against this same
+backtest — nudging each constant up and down, keeping any move that raises the
+average edge without lowering the win count or producing an illegal roster
+(e.g. two DSTs). It's how the current constants were found, up from a +113.7
+hand-picked baseline.
 
 ## Layout
 
@@ -91,6 +101,8 @@ data/sources.py       raw scraped ADP, projections, byes, and camp news
 data/build.py         merges those into players.json (consensus, tiers)
 data/players.json     the built dataset — 307 players
 scripts/build.mjs     injects the dataset into the template
+scripts/tune.mjs      searches TUNE's scoring constants against the backtest
+test/backtest.js      the engine-vs-ADP backtest, shared by tests and the tuner
 test/assertions.js    the assertion suite (runs inside the page)
 test/run.mjs          boots the built page in Chromium and runs it
 ```

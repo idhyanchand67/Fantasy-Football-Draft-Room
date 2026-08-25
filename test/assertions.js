@@ -108,50 +108,8 @@ ok(bestQBleft.score < bestOverall.score * 0.4, "third QB is heavily discounted")
 // ---------------------------------------------------------- endgame K / DST
 console.log("\n== endgame K/DST forcing ==");
 S.picks = []; S.teams = 12; S.slot = 1;
-// simulate a whole draft by ADP for everyone, engine for me, but stop 2 picks from my end
-const CAP = {QB:2, TE:2, K:1, DST:1, RB:6, WR:7};
-// A competent ADP drafter: best available by ADP, but it respects roster caps and
-// makes sure it walks away with a legal starting lineup. This is the honest baseline.
-function adpBot(M, team) {
-  const roster = M.teamRosters[team] || [];
-  const cnt = {}; roster.forEach(p => cnt[p.p] = (cnt[p.p] || 0) + 1);
-  const left = W.rounds() - roster.length;
-  const missing = [];
-  for (const pos of ["QB","RB","WR","TE","DST","K"]) {
-    const need = Math.max(0, S.starters[pos] - (cnt[pos] || 0));
-    for (let i = 0; i < need; i++) missing.push(pos);
-  }
-  // with just enough picks left to fill the lineup, take what is still missing
-  if (left <= missing.length && missing.length) {
-    const urgent = missing.includes("K") || missing.includes("DST")
-      ? missing.filter(p => p === "K" || p === "DST")
-      : missing;
-    const pool = M.avail.filter(p => urgent.includes(p.p)).sort((a,b) => a.adp - b.adp);
-    if (pool.length) return pool[0];
-  }
-  const pool = M.avail.slice().sort((a,b) => a.adp - b.adp)
-    .filter(p => (cnt[p.p] || 0) < CAP[p.p])
-    // don't burn a mid-round pick on K/DST
-    .filter(p => !((p.p === "K" || p.p === "DST") && left > missing.length + 1));
-  return pool[0] || M.avail.slice().sort((a,b) => a.adp - b.adp)[0];
-}
-
-function simulate(meStrategy) {
-  S.picks = [];
-  const total = W.totalPicks();
-  for (let i = 1; i <= total; i++) {
-    const M2 = W.model();
-    const team = W.teamOnPick(M2.cur);
-    const mine = team === S.slot;
-    const pick = (mine && meStrategy === "engine")
-      ? M2.avail.slice().sort((a,b) => b.score - a.score)[0]
-      : adpBot(M2, team);
-    S.picks.push(pick.id);
-  }
-  return W.model();
-}
-
-const engineRun = simulate("engine");
+// simulate a whole draft by ADP for everyone, engine for me (test/backtest.js)
+const engineRun = btSimulate("engine", W, S);
 const myRoster = engineRun.mine;
 ok(myRoster.filter(p => p.p === "K").length === 1, "engine ended with exactly 1 K",
    String(myRoster.filter(p => p.p === "K").length));
@@ -165,37 +123,13 @@ ok(myRoster.length === W.rounds(), "engine filled every roster spot");
 
 // ------------------------------------------------- head to head vs pure ADP
 console.log("\n== engine vs best-available-by-ADP, all 12 slots ==");
-function starterPoints(roster) {
-  const pool = roster.slice().sort((a,b) => b.proj - a.proj);
-  const used = new Set();
-  const take = pos => { const p = pool.find(x => x.p === pos && !used.has(x.id)); if (p) used.add(p.id); return p; };
-  let tot = 0;
-  const st = S.starters;
-  for (const pos of ["QB","RB","WR","TE"]) for (let i=0;i<st[pos];i++){ const p=take(pos); if(p) tot+=p.proj; }
-  for (let i=0;i<st.FLEX;i++){
-    const p = pool.filter(x => ["RB","WR","TE"].includes(x.p) && !used.has(x.id))[0];
-    if (p){ used.add(p.id); tot += p.proj; }
-  }
-  for (const pos of ["DST","K"]) for (let i=0;i<st[pos];i++){ const p=take(pos); if(p) tot+=p.proj; }
-  return tot;
-}
-let engWins = 0, deltas = [];
-for (let slot = 1; slot <= 12; slot++) {
-  S.slot = slot;
-  const engRoster = simulate("engine").mine;
-  const adpRoster = simulate("adp").mine;
-  ok(adpRoster.filter(p=>p.p==="K").length===1 && adpRoster.filter(p=>p.p==="DST").length===1,
+const bt = btRunAll(W, S, 12, true);
+bt.rosters.forEach(({slot, adp}) => {
+  ok(adp.filter(p=>p.p==="K").length===1 && adp.filter(p=>p.p==="DST").length===1,
      `baseline at slot ${slot} fielded a legal lineup`);
-  const eng = starterPoints(engRoster);
-  const adp = starterPoints(adpRoster);
-  deltas.push(eng - adp);
-  if (eng > adp) engWins++;
-  console.log(`  slot ${String(slot).padStart(2)}: engine ${eng.toFixed(0)}  vs  ADP ${adp.toFixed(0)}   ${(eng-adp>=0?"+":"")}${(eng-adp).toFixed(0)}`);
-}
-const avg = deltas.reduce((a,b)=>a+b,0) / deltas.length;
-console.log(`  average edge: ${avg >= 0 ? "+" : ""}${avg.toFixed(1)} projected starter points`);
-ok(engWins >= 9, "engine beats a competent ADP drafter from at least 9 of 12 slots", `won ${engWins}/12`);
-ok(avg > 15, "average edge is a meaningful number of points", avg.toFixed(1));
+});
+ok(bt.wins >= 9, "engine beats a competent ADP drafter from at least 9 of 12 slots", `won ${bt.wins}/12`);
+ok(bt.avg > 15, "average edge is a meaningful number of points", bt.avg.toFixed(1));
 
 // -------------------------------------------------------------- data sanity
 console.log("\n== data sanity ==");

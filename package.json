@@ -9,6 +9,7 @@
     "build": "node scripts/build.mjs",
     "test": "npm run build && node test/run.mjs",
     "screenshots": "npm run build && node test/run.mjs --screenshots",
+    "tune": "npm run build && node scripts/tune.mjs",
     "serve": "python3 -m http.server 8080"
   },
   "devDependencies": {

@@ -17,6 +17,7 @@ if (!fs.existsSync(built)) {
   process.exit(1);
 }
 
+const backtest = fs.readFileSync(path.join(root, "test/backtest.js"), "utf8");
 const assertions = fs.readFileSync(path.join(root, "test/assertions.js"), "utf8");
 const shots = process.argv.includes("--screenshots");
 
@@ -33,7 +34,7 @@ if (!(await page.evaluate(() => typeof window.WarRoom !== "undefined"))) {
   process.exit(1);
 }
 
-const result = await page.evaluate(`(function(){ ${assertions} })()`);
+const result = await page.evaluate(`(function(){ ${backtest}\n${assertions} })()`);
 console.log(`\n${result.passes} passed, ${result.fails} failed`);
 
 if (shots) {
