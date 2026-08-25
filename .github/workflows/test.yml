@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify players.json matches sources.py
+        run: |
+          cp data/players.json /tmp/players.json.committed
+          python3 data/build.py
+          if ! diff -q data/players.json /tmp/players.json.committed > /dev/null; then
+            echo "::error::data/players.json is out of sync with data/sources.py — run 'python3 data/build.py' and commit the result."
+            diff data/players.json /tmp/players.json.committed || true
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
