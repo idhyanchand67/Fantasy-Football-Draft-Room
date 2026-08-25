@@ -1,0 +1,19 @@
+{
+  "name": "draft-war-room",
+  "version": "1.0.0",
+  "description": "A live snake-draft board for full-PPR fantasy football that re-ranks every player after each pick.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "data": "python3 data/build.py",
+    "build": "node scripts/build.mjs",
+    "test": "npm run build && node test/run.mjs",
+    "screenshots": "npm run build && node test/run.mjs --screenshots",
+    "serve": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0"
+  },
+  "keywords": ["fantasy-football", "draft", "ppr", "vor", "value-over-replacement"],
+  "private": true
+}

@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A live snake-draft board for full-PPR fantasy football.">
+<meta name="color-scheme" content="light dark">
+<title>Draft War Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+
+<style>
+:root{
+  --bg:#F1F3F6; --surface:#FFFFFF; --surface2:#E9ECF1; --surface3:#DFE3EA;
+  --line:#D5DAE3; --line2:#C3CAD6;
+  --ink:#151922; --ink2:#525A6B; --ink3:#828B9D;
+  --accent:#3A46D6; --accent2:#2D37B0; --accentInk:#FFFFFF; --accentSoft:#E5E7FB;
+  --good:#0F7048; --goodSoft:#DDF2E8;
+  --warn:#96600A; --warnSoft:#FBEEDA;
+  --bad:#AF2B21; --badSoft:#FBE4E1;
+  --QB:#C2410C; --RB:#15803D; --WR:#1D4ED8; --TE:#BE185D; --NEU:#5F6878;
+  --QBs:#FBEAE0; --RBs:#DFF2E6; --WRs:#E1E8FD; --TEs:#FBE3EC; --NEUs:#E6E9EF;
+  --shadow:0 1px 2px rgba(16,22,38,.06),0 6px 18px rgba(16,22,38,.07);
+  --radius:9px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C0E14; --surface:#141822; --surface2:#1C212D; --surface3:#252B39;
+    --line:#2A3040; --line2:#394153;
+    --ink:#E9EBF1; --ink2:#A3ABBC; --ink3:#727C90;
+    --accent:#7A85FF; --accent2:#98A1FF; --accentInk:#0C0E14; --accentSoft:#232842;
+    --good:#41BE85; --goodSoft:#14301F;
+    --warn:#DFA344; --warnSoft:#332612;
+    --bad:#EE7261; --badSoft:#37191A;
+    --QB:#D9762F; --RB:#35A85E; --WR:#5F86EC; --TE:#DC5C90; --NEU:#8A93A6;
+    --QBs:#2B1D12; --RBs:#12281B; --WRs:#151D33; --TEs:#2C1622; --NEUs:#222735;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C0E14; --surface:#141822; --surface2:#1C212D; --surface3:#252B39;
+  --line:#2A3040; --line2:#394153;
+  --ink:#E9EBF1; --ink2:#A3ABBC; --ink3:#727C90;
+  --accent:#7A85FF; --accent2:#98A1FF; --accentInk:#0C0E14; --accentSoft:#232842;
+  --good:#41BE85; --goodSoft:#14301F;
+  --warn:#DFA344; --warnSoft:#332612;
+  --bad:#EE7261; --badSoft:#37191A;
+  --QB:#D9762F; --RB:#35A85E; --WR:#5F86EC; --TE:#DC5C90; --NEU:#8A93A6;
+  --QBs:#2B1D12; --RBs:#12281B; --WRs:#151D33; --TEs:#2C1622; --NEUs:#222735;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px; line-height:1.45; -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.num{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.cond{font-family:"Barlow Condensed","IBM Plex Sans",sans-serif}
+
+/* ---------- top bar ---------- */
+.top{
+  position:sticky;top:0;z-index:60;background:var(--surface);border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;
+  padding:9px 16px;box-shadow:var(--shadow);
+}
+.brand{display:flex;align-items:baseline;gap:9px}
+.brand h1{
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:23px;margin:0;
+  letter-spacing:.02em;text-transform:uppercase;
+}
+.brand .fmt{font-size:11px;color:var(--ink3);letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.state{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.chipstate{
+  display:flex;align-items:baseline;gap:7px;background:var(--surface2);
+  border:1px solid var(--line);border-radius:var(--radius);padding:5px 11px;
+}
+.chipstate .lab{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);font-weight:600}
+.chipstate .val{font-family:"Barlow Condensed",sans-serif;font-size:20px;font-weight:700;line-height:1}
+.chipstate.live{background:var(--accent);border-color:var(--accent);color:var(--accentInk)}
+.chipstate.live .lab{color:var(--accentInk);opacity:.75}
+.topacts{display:flex;gap:6px}
+.btn{
+  border:1px solid var(--line2);border-radius:var(--radius);padding:6px 11px;
+  background:var(--surface);font-size:12.5px;font-weight:600;color:var(--ink2);
+  transition:background .12s,color .12s,border-color .12s;
+}
+.btn:hover{background:var(--surface2);color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accentInk)}
+.btn.primary:hover{background:var(--accent2)}
+
+/* ---------- alerts ---------- */
+.alerts{display:flex;gap:8px;padding:8px 16px 0;flex-wrap:wrap}
+.alerts:empty{display:none}
+.alert{
+  display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;
+  border-radius:var(--radius);padding:5px 10px;border:1px solid transparent;
+}
+.alert.run{background:var(--warnSoft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 28%,transparent)}
+.alert.tier{background:var(--badSoft);color:var(--bad);border-color:color-mix(in srgb,var(--bad) 28%,transparent)}
+.alert.turn{background:var(--goodSoft);color:var(--good);border-color:color-mix(in srgb,var(--good) 30%,transparent)}
+.alert .dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+
+/* ---------- layout ---------- */
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr) 290px;gap:14px;padding:14px 16px 40px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.phead{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:9px 12px;border-bottom:1px solid var(--line);background:var(--surface2);
+}
+.phead h2{
+  margin:0;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);
+}
+.phead .meta{font-size:11px;color:var(--ink3);font-weight:600}
+.rail,.intel{display:flex;flex-direction:column;gap:14px;position:sticky;top:70px}
+
+/* ---------- position chips ---------- */
+.pos{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:10.5px;letter-spacing:.03em;
+  min-width:34px;padding:2px 5px;border-radius:5px;flex:none;
+}
+.pos.QB{background:var(--QBs);color:var(--QB)}
+.pos.RB{background:var(--RBs);color:var(--RB)}
+.pos.WR{background:var(--WRs);color:var(--WR)}
+.pos.TE{background:var(--TEs);color:var(--TE)}
+.pos.K,.pos.DST{background:var(--NEUs);color:var(--NEU)}
+
+/* ---------- the pick ---------- */
+.rec{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.rechead{
+  background:var(--accent);color:var(--accentInk);padding:8px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.rechead h2{margin:0;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.rechead .when{font-size:11px;font-weight:600;opacity:.82}
+.recbody{padding:14px}
+.recmain{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.recname{flex:1;min-width:210px}
+.recname .nm{
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:34px;line-height:1.03;
+  letter-spacing:.005em;text-wrap:balance;margin:0 0 3px;
+}
+.recname .sub{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2)}
+.recstats{display:flex;gap:8px}
+.stat{
+  background:var(--surface2);border:1px solid var(--line);border-radius:var(--radius);
+  padding:7px 12px;min-width:74px;
+}
+.stat .lab{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);font-weight:700}
+.stat .val{font-family:"Barlow Condensed",sans-serif;font-size:26px;font-weight:700;line-height:1.08}
+.stat.hi .val{color:var(--accent)}
+.reasons{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.reason{
+  font-size:12px;font-weight:600;padding:4px 9px;border-radius:99px;
+  background:var(--surface2);border:1px solid var(--line);color:var(--ink2);
+}
+.reason.good{background:var(--goodSoft);border-color:color-mix(in srgb,var(--good) 26%,transparent);color:var(--good)}
+.reason.urgent{background:var(--badSoft);border-color:color-mix(in srgb,var(--bad) 26%,transparent);color:var(--bad)}
+.reason.need{background:var(--accentSoft);border-color:color-mix(in srgb,var(--accent) 30%,transparent);color:var(--accent)}
+.recact{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+.alts{border-top:1px solid var(--line);background:var(--surface2)}
+.alts .altrow{
+  display:grid;grid-template-columns:20px 40px minmax(0,1fr) auto auto;gap:9px;align-items:center;
+  padding:7px 14px;border-bottom:1px solid var(--line);font-size:13px;cursor:pointer;
+}
+.alts .altrow:last-child{border-bottom:none}
+.alts .altrow:hover{background:var(--surface3)}
+.alts .rk{font-family:"Barlow Condensed",sans-serif;font-weight:700;color:var(--ink3);font-size:15px}
+.alts .anm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.alts .why{font-size:11.5px;color:var(--ink3);font-weight:500}
+.alts .sc{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:17px}
+
+/* ---------- filters + list ---------- */
+.controls{display:flex;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap;align-items:center}
+.search{
+  flex:1;min-width:150px;background:var(--surface2);border:1px solid var(--line);
+  border-radius:var(--radius);padding:7px 11px;font:inherit;color:var(--ink);
+}
+.search::placeholder{color:var(--ink3)}
+.segs{display:flex;gap:3px;background:var(--surface2);border:1px solid var(--line);border-radius:var(--radius);padding:3px}
+.seg{
+  padding:4px 9px;border-radius:6px;font-size:12px;font-weight:600;color:var(--ink2);
+  transition:background .12s,color .12s;
+}
+.seg[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.seg:hover:not([aria-pressed="true"]){color:var(--ink)}
+
+.rows{max-height:none}
+.rowhead,.row{
+  display:grid;
+  grid-template-columns:26px 42px minmax(0,1fr) 44px 52px 52px 52px 44px;
+  gap:9px;align-items:center;padding:0 12px;
+}
+.rowhead{
+  height:30px;border-bottom:1px solid var(--line);background:var(--surface2);
+  font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);
+}
+.rowhead .r{text-align:right}
+.row{
+  min-height:46px;border-bottom:1px solid var(--line);cursor:pointer;
+  transition:background .1s;
+}
+.row:hover{background:var(--surface2)}
+.row:last-child{border-bottom:none}
+.row .idx{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3)}
+.pname{min-width:0}
+.pname .n{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
+.pname .m{font-size:11px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{
+  font-size:9px;font-weight:700;letter-spacing:.05em;padding:1px 5px;border-radius:4px;flex:none;
+  text-transform:uppercase;
+}
+.tag.OUT{background:var(--badSoft);color:var(--bad)}
+.tag.INJURED{background:var(--warnSoft);color:var(--warn)}
+.tag.RISK{background:var(--warnSoft);color:var(--warn)}
+.tag.RISER{background:var(--goodSoft);color:var(--good)}
+.tag.FALLER{background:var(--surface3);color:var(--ink3)}
+.tag.NEWS{background:var(--surface3);color:var(--ink3)}
+.cell{text-align:right;font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-variant-numeric:tabular-nums}
+.cell.big{font-family:"Barlow Condensed",sans-serif;font-size:17px;font-weight:700}
+.cell.dim{color:var(--ink3)}
+.cell.up{color:var(--good)}
+.cell.down{color:var(--bad)}
+.tierbadge{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;color:var(--ink3);
+  background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:1px 0;text-align:center;
+}
+.empty{padding:26px 14px;text-align:center;color:var(--ink3);font-size:13px}
+
+/* ---------- roster ---------- */
+.slots{padding:6px 0}
+.slot{
+  display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:9px;align-items:center;
+  padding:5px 12px;font-size:12.5px;
+}
+.slot .lab{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;color:var(--ink3);
+  letter-spacing:.04em;
+}
+.slot .who{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.slot.open .who{color:var(--ink3);font-weight:500;font-style:italic}
+.slot .pts{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink3)}
+.slot.bench{opacity:.85}
+.rtotal{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:9px 12px;border-top:1px solid var(--line);background:var(--surface2);
+}
+.rtotal .lab{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);font-weight:700}
+.rtotal .val{font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:700}
+
+/* ---------- supply meters ---------- */
+.meters{padding:11px 12px;display:flex;flex-direction:column;gap:11px}
+.meter .mtop{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:4px}
+.meter .mname{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600}
+.meter .mval{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.track{position:relative;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.fill{position:absolute;inset:0 auto 0 0;border-radius:4px;transition:width .25s ease}
+.fill.QB{background:var(--QB)} .fill.RB{background:var(--RB)}
+.fill.WR{background:var(--WR)} .fill.TE{background:var(--TE)}
+.parity{position:absolute;top:-2px;bottom:-2px;left:50%;width:2px;background:var(--line2);border-radius:1px}
+.meter .note{font-size:10.5px;color:var(--ink3);margin-top:3px}
+.meter .note.scarce{color:var(--bad);font-weight:600}
+.mlegend{font-size:10.5px;color:var(--ink3);padding:0 12px 11px;line-height:1.4}
+
+/* ---------- league board ---------- */
+.league{padding:8px 12px 12px;display:flex;flex-direction:column;gap:4px}
+.tm{display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px;align-items:center;font-size:11.5px}
+.tm .tname{font-weight:600;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm.me .tname{color:var(--accent)}
+.tm .bars{display:flex;gap:2px;height:14px;align-items:stretch}
+.tm .b{
+  border-radius:3px;font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;min-width:15px;
+}
+.tm .b.QB{background:var(--QBs);color:var(--QB)} .tm .b.RB{background:var(--RBs);color:var(--RB)}
+.tm .b.WR{background:var(--WRs);color:var(--WR)} .tm .b.TE{background:var(--TEs);color:var(--TE)}
+.tm .b.K,.tm .b.DST{background:var(--NEUs);color:var(--NEU)}
+.tm .none{color:var(--ink3);font-size:10.5px;font-style:italic}
+
+/* ---------- log ---------- */
+.log{max-height:230px;overflow-y:auto}
+.lrow{
+  display:grid;grid-template-columns:46px 40px minmax(0,1fr);gap:8px;align-items:center;
+  padding:5px 12px;font-size:12px;border-bottom:1px solid var(--line);
+}
+.lrow:last-child{border-bottom:none}
+.lrow.mine{background:var(--accentSoft)}
+.lrow .pk{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink3)}
+.lrow .who{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+
+/* ---------- dialog ---------- */
+dialog{
+  border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);
+  padding:0;max-width:440px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+dialog::backdrop{background:rgba(8,10,16,.55)}
+.dhead{padding:14px 18px;border-bottom:1px solid var(--line)}
+.dhead h2{margin:0;font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+.dhead p{margin:3px 0 0;font-size:12.5px;color:var(--ink3)}
+.dbody{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:10px}
+.f label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);font-weight:700;margin-bottom:4px}
+.f input,.f select{
+  width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:var(--radius);
+  padding:7px 9px;font:inherit;font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);
+}
+.fsec{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3);font-weight:700;
+  padding-top:4px;border-top:1px solid var(--line)}
+.dfoot{padding:12px 18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;background:var(--surface2)}
+
+.tabbar{display:none}
+.hint{font-size:11px;color:var(--ink3);padding:8px 12px;border-top:1px solid var(--line);background:var(--surface2)}
+kbd{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;background:var(--surface3);
+  border:1px solid var(--line2);border-radius:4px;padding:1px 4px;
+}
+
+@media (max-width:1180px){
+  .wrap{grid-template-columns:220px minmax(0,1fr)}
+  .intel{grid-column:1/-1;position:static;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));align-items:start}
+}
+@media (max-width:820px){
+  .top{grid-template-columns:1fr auto;gap:8px;padding:7px 12px}
+  .brand h1{font-size:19px;white-space:nowrap}
+  .brand .fmt{display:none}
+  .state{grid-column:1/-1;justify-content:flex-start;order:3;gap:7px}
+  .chipstate{padding:4px 9px}
+  .chipstate .val{font-size:17px}
+  .wrap{grid-template-columns:minmax(0,1fr);padding:12px 12px 76px;gap:12px}
+  .rail,.intel{position:static;display:flex}
+  .app[data-view="board"] .rail,.app[data-view="board"] .intel{display:none}
+  .app[data-view="team"] .board,.app[data-view="team"] .intel{display:none}
+  .app[data-view="league"] .board,.app[data-view="league"] .rail{display:none}
+  .rowhead,.row{grid-template-columns:24px 40px minmax(0,1fr) 50px 50px 44px;gap:7px}
+  .rowhead .hideS,.row .hideS{display:none}
+  .tabbar{
+    display:grid;grid-template-columns:repeat(3,1fr);position:fixed;bottom:0;left:0;right:0;z-index:70;
+    background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  }
+  .tabbar button{
+    padding:8px 4px;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink3);border-radius:8px;
+  }
+  .tabbar button[aria-pressed="true"]{background:var(--accentSoft);color:var(--accent)}
+  .recname .nm{font-size:29px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="app" id="app" data-view="board">
+  <header class="top">
+    <div class="brand">
+      <h1>Draft War&nbsp;Room</h1>
+      <span class="fmt" id="fmtLabel">Full PPR · 1QB</span>
+    </div>
+    <div class="state" id="stateBar"></div>
+    <div class="topacts">
+      <button class="btn" id="undoBtn" title="Undo last pick (U)">Undo</button>
+      <button class="btn" id="setBtn" title="League settings">Setup</button>
+    </div>
+  </header>
+
+  <div class="alerts" id="alerts" aria-live="polite"></div>
+
+  <div class="wrap">
+    <aside class="rail">
+      <section class="panel">
+        <div class="phead"><h2>Your Roster</h2><span class="meta" id="rosterMeta"></span></div>
+        <div class="slots" id="slots"></div>
+        <div class="rtotal">
+          <span class="lab">Projected starters</span>
+          <span class="val num" id="starterPts">0</span>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="phead"><h2>Draft Log</h2><span class="meta" id="logMeta"></span></div>
+        <div class="log" id="log"></div>
+      </section>
+    </aside>
+
+    <section class="board">
+      <div class="rec" id="rec"></div>
+      <section class="panel" style="margin-top:14px">
+        <div class="controls">
+          <input class="search" id="search" type="search" placeholder="Search players…  ( / )" autocomplete="off">
+          <div class="segs" id="posFilter" role="group" aria-label="Filter by position"></div>
+        </div>
+        <div class="rowhead">
+          <span></span><span></span><span>Player</span>
+          <span class="r">Tier</span><span class="r">Proj</span>
+          <span class="r hideS">VOR</span><span class="r">ADP</span><span class="r hideS">Lasts</span>
+        </div>
+        <div class="rows" id="rows"></div>
+        <div class="hint">
+          Tap a player to record the pick that's on the clock.
+          <kbd>/</kbd> search · <kbd>Enter</kbd> draft top result · <kbd>U</kbd> undo
+        </div>
+      </section>
+    </section>
+
+    <aside class="intel">
+      <section class="panel">
+        <div class="phead"><h2>Cost of Waiting</h2><span class="meta" id="waitSub"></span></div>
+        <div class="meters" id="meters"></div>
+        <p class="mlegend">Points between the best player left at each spot and what you should realistically expect to still be there at your next pick. The longest bar is the position to take now.</p>
+      </section>
+      <section class="panel">
+        <div class="phead"><h2>League Board</h2><span class="meta" id="leagueMeta"></span></div>
+        <div class="league" id="league"></div>
+      </section>
+    </aside>
+  </div>
+
+  <nav class="tabbar" id="tabbar" role="group" aria-label="View">
+    <button data-view="board" aria-pressed="true">Board</button>
+    <button data-view="team" aria-pressed="false">My Team</button>
+    <button data-view="league" aria-pressed="false">League</button>
+  </nav>
+</div>
+
+<dialog id="setup">
+  <form method="dialog">
+    <div class="dhead">
+      <h2>League Setup</h2>
+      <p>Snake draft. Changing these re-runs every recommendation.</p>
+    </div>
+    <div class="dbody">
+      <div class="fgrid">
+        <div class="f"><label for="fTeams">Teams</label><input id="fTeams" type="number" min="4" max="16" step="1"></div>
+        <div class="f"><label for="fSlot">Your slot</label><input id="fSlot" type="number" min="1" max="16" step="1"></div>
+        <div class="f"><label for="fBench">Bench</label><input id="fBench" type="number" min="0" max="12" step="1"></div>
+      </div>
+      <div class="fsec">Starting lineup</div>
+      <div class="fgrid">
+        <div class="f"><label for="sQB">QB</label><input id="sQB" type="number" min="0" max="3" step="1"></div>
+        <div class="f"><label for="sRB">RB</label><input id="sRB" type="number" min="0" max="5" step="1"></div>
+        <div class="f"><label for="sWR">WR</label><input id="sWR" type="number" min="0" max="6" step="1"></div>
+        <div class="f"><label for="sTE">TE</label><input id="sTE" type="number" min="0" max="3" step="1"></div>
+        <div class="f"><label for="sFLEX">FLEX</label><input id="sFLEX" type="number" min="0" max="4" step="1"></div>
+        <div class="f"><label for="sDST">DST</label><input id="sDST" type="number" min="0" max="2" step="1"></div>
+        <div class="f"><label for="sK">K</label><input id="sK" type="number" min="0" max="2" step="1"></div>
+      </div>
+    </div>
+    <div class="dfoot">
+      <button class="btn" value="reset" type="submit" id="resetBtn">Reset draft</button>
+      <span style="flex:1"></span>
+      <button class="btn" value="cancel" type="submit">Cancel</button>
+      <button class="btn primary" value="save" type="submit">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+"use strict";
+const PLAYERS = [{"id":"jahmyr-gibbs","n":"Jahmyr Gibbs","p":"RB","t":"DET","adp":1.0,"listed":true,"proj":331.4,"bye":6,"pr":1,"tier":1},{"id":"bijan-robinson","n":"Bijan Robinson","p":"RB","t":"ATL","adp":2.0,"listed":true,"proj":324.9,"bye":11,"pr":2,"tier":1},{"id":"jamarr-chase","n":"Ja'Marr Chase","p":"WR","t":"CIN","adp":3.0,"listed":true,"proj":311.1,"bye":6,"pr":2,"tier":1},{"id":"puka-nacua","n":"Puka Nacua","p":"WR","t":"LAR","adp":4.0,"listed":true,"proj":312.5,"bye":11,"pr":1,"tier":1,"tag":"RISK","note":"Under NFL review, suspension possible; ruling may land after drafts"},{"id":"jaxon-smith-njigba","n":"Jaxon Smith-Njigba","p":"WR","t":"SEA","adp":5.5,"listed":true,"proj":284.6,"bye":11,"pr":3,"tier":1},{"id":"christian-mccaffrey","n":"Christian McCaffrey","p":"RB","t":"SF","adp":5.5,"listed":true,"proj":291.0,"bye":8,"pr":3,"tier":1,"tag":"INJURED","note":"Hamstring tightness, missed camp time; age and workload concerns"},{"id":"amon-ra-st-brown","n":"Amon-Ra St. Brown","p":"WR","t":"DET","adp":7.5,"listed":true,"proj":280.5,"bye":6,"pr":4,"tier":1},{"id":"jonathan-taylor","n":"Jonathan Taylor","p":"RB","t":"IND","adp":7.5,"listed":true,"proj":272.3,"bye":13,"pr":4,"tier":2},{"id":"james-cook","n":"James Cook","p":"RB","t":"BUF","adp":9.5,"listed":true,"proj":260.8,"bye":7,"pr":5,"tier":2},{"id":"ashton-jeanty","n":"Ashton Jeanty","p":"RB","t":"LV","adp":9.5,"listed":true,"proj":259.5,"bye":13,"pr":6,"tier":2},{"id":"ceedee-lamb","n":"CeeDee Lamb","p":"WR","t":"DAL","adp":11.5,"listed":true,"proj":270.5,"bye":14,"pr":5,"tier":2},{"id":"justin-jefferson","n":"Justin Jefferson","p":"WR","t":"MIN","adp":11.5,"listed":true,"proj":250.4,"bye":6,"pr":7,"tier":2},{"id":"saquon-barkley","n":"Saquon Barkley","p":"RB","t":"PHI","adp":14.0,"listed":true,"proj":246.7,"bye":10,"pr":10,"tier":2,"tag":"NEWS","note":"Healthy; Eagles staff expects a bounce-back year"},{"id":"devon-achane","n":"De'Von Achane","p":"RB","t":"MIA","adp":14.0,"listed":true,"proj":257.4,"bye":6,"pr":7,"tier":2},{"id":"chase-brown","n":"Chase Brown","p":"RB","t":"CIN","adp":14.0,"listed":true,"proj":255.2,"bye":6,"pr":8,"tier":2},{"id":"kenneth-walker","n":"Kenneth Walker","p":"RB","t":"KC","adp":16.5,"listed":true,"proj":244.0,"bye":5,"pr":11,"tier":2},{"id":"omarion-hampton","n":"Omarion Hampton","p":"RB","t":"LAC","adp":16.5,"listed":true,"proj":242.9,"bye":7,"pr":12,"tier":2},{"id":"derrick-henry","n":"Derrick Henry","p":"RB","t":"BAL","adp":19.5,"listed":true,"proj":246.9,"bye":13,"pr":9,"tier":2},{"id":"drake-london","n":"Drake London","p":"WR","t":"ATL","adp":19.5,"listed":true,"proj":250.2,"bye":11,"pr":8,"tier":2},{"id":"brock-bowers","n":"Brock Bowers","p":"TE","t":"LV","adp":19.5,"listed":true,"proj":253.5,"bye":13,"pr":1,"tier":1},{"id":"aj-brown","n":"A.J. Brown","p":"WR","t":"NE","adp":19.5,"listed":true,"proj":247.2,"bye":11,"pr":9,"tier":2},{"id":"nico-collins","n":"Nico Collins","p":"WR","t":"HOU","adp":22.0,"listed":true,"proj":262.0,"bye":8,"pr":6,"tier":2,"tag":"RISER","note":"Higgins' ACL pushes him up to roughly WR9"},{"id":"george-pickens","n":"George Pickens","p":"WR","t":"DAL","adp":24.5,"listed":true,"proj":245.7,"bye":14,"pr":10,"tier":2},{"id":"trey-mcbride","n":"Trey McBride","p":"TE","t":"ARI","adp":24.5,"listed":true,"proj":234.9,"bye":14,"pr":2,"tier":1},{"id":"malik-nabers","n":"Malik Nabers","p":"WR","t":"NYG","adp":25.0,"listed":true,"proj":227.3,"bye":8,"pr":16,"tier":3,"tag":"INJURED","note":"Back in full team drills off ACL, trending toward Week 1"},{"id":"chris-olave","n":"Chris Olave","p":"WR","t":"NO","adp":26.5,"listed":true,"proj":235.9,"bye":8,"pr":11,"tier":3,"tag":"RISER","note":"Tyson's hamstring returns him to a target-hog role"},{"id":"rashee-rice","n":"Rashee Rice","p":"WR","t":"KC","adp":27.0,"listed":true,"proj":229.3,"bye":5,"pr":12,"tier":3,"tag":"NEWS","note":"Back practicing, projects as the Chiefs' leading target earner"},{"id":"jeremiyah-love","n":"Jeremiyah Love","p":"RB","t":"ARI","adp":29.0,"listed":true,"proj":211.8,"bye":14,"pr":13,"tier":3,"tag":"INJURED","note":"High-ankle sprain, Week 1 status disputed across reports"},{"id":"josh-allen","n":"Josh Allen","p":"QB","t":"BUF","adp":29.5,"listed":true,"proj":361.5,"bye":7,"pr":1,"tier":1},{"id":"kyren-williams","n":"Kyren Williams","p":"RB","t":"LAR","adp":29.5,"listed":true,"proj":208.0,"bye":11,"pr":15,"tier":3},{"id":"devonta-smith","n":"DeVonta Smith","p":"WR","t":"PHI","adp":30.0,"listed":true,"proj":229.2,"bye":10,"pr":13,"tier":3},{"id":"breece-hall","n":"Breece Hall","p":"RB","t":"NYJ","adp":31.0,"listed":true,"proj":211.0,"bye":13,"pr":14,"tier":3,"tag":"INJURED","note":"Groin strain, out 2-3 weeks, expected ready for the opener"},{"id":"javonte-williams","n":"Javonte Williams","p":"RB","t":"DAL","adp":32.0,"listed":true,"proj":207.3,"bye":14,"pr":18,"tier":3},{"id":"zay-flowers","n":"Zay Flowers","p":"WR","t":"BAL","adp":33.5,"listed":true,"proj":228.2,"bye":13,"pr":14,"tier":3},{"id":"emeka-egbuka","n":"Emeka Egbuka","p":"WR","t":"TB","adp":36.5,"listed":true,"proj":224.0,"bye":10,"pr":19,"tier":3,"tag":"INJURED","note":"Sprained toe, Week 1 availability uncertain"},{"id":"tee-higgins","n":"Tee Higgins","p":"WR","t":"CIN","adp":37.0,"listed":true,"proj":224.4,"bye":6,"pr":18,"tier":3},{"id":"tetairoa-mcmillan","n":"Tetairoa McMillan","p":"WR","t":"CAR","adp":37.0,"listed":true,"proj":223.0,"bye":5,"pr":20,"tier":3},{"id":"josh-jacobs","n":"Josh Jacobs","p":"RB","t":"GB","adp":38.0,"listed":true,"proj":202.6,"bye":11,"pr":20,"tier":3,"tag":"RISK","note":"Under NFL review after May arrest, suspension possible"},{"id":"garrett-wilson","n":"Garrett Wilson","p":"WR","t":"NYJ","adp":38.5,"listed":true,"proj":224.9,"bye":13,"pr":17,"tier":3},{"id":"travis-etienne","n":"Travis Etienne","p":"RB","t":"NO","adp":39.5,"listed":true,"proj":207.7,"bye":8,"pr":17,"tier":3},{"id":"colston-loveland","n":"Colston Loveland","p":"TE","t":"CHI","adp":41.0,"listed":true,"proj":215.4,"bye":10,"pr":3,"tier":2},{"id":"cam-skattebo","n":"Cam Skattebo","p":"RB","t":"NYG","adp":41.0,"listed":true,"proj":201.2,"bye":8,"pr":21,"tier":3,"tag":"INJURED","note":"Ankle recovery on pace for full Week 1 participation"},{"id":"jaylen-waddle","n":"Jaylen Waddle","p":"WR","t":"DEN","adp":43.5,"listed":true,"proj":221.0,"bye":10,"pr":22,"tier":3,"tag":"NEWS","note":"Acquired by Denver, now their clear No. 1 receiver"},{"id":"dandre-swift","n":"D'Andre Swift","p":"RB","t":"CHI","adp":45.5,"listed":true,"proj":208.0,"bye":10,"pr":16,"tier":3,"tag":"RISER","note":"Monangai's knee injury opens up Bears lead-back work"},{"id":"luther-burden","n":"Luther Burden","p":"WR","t":"CHI","adp":47.5,"listed":true,"proj":209.0,"bye":10,"pr":25,"tier":4,"tag":"INJURED","note":"Groin strain, misses preseason, team expects Week 1"},{"id":"terry-mclaurin","n":"Terry McLaurin","p":"WR","t":"WAS","adp":48.5,"listed":true,"proj":213.8,"bye":7,"pr":23,"tier":4,"tag":"FALLER","note":"Diggs signing trims his projected target share"},{"id":"davante-adams","n":"Davante Adams","p":"WR","t":"LAR","adp":48.5,"listed":true,"proj":192.5,"bye":11,"pr":31,"tier":5},{"id":"ladd-mcconkey","n":"Ladd McConkey","p":"WR","t":"LAC","adp":49.0,"listed":true,"proj":228.2,"bye":7,"pr":15,"tier":3},{"id":"david-montgomery","n":"David Montgomery","p":"RB","t":"HOU","adp":49.0,"listed":true,"proj":206.1,"bye":8,"pr":19,"tier":3},{"id":"lamar-jackson","n":"Lamar Jackson","p":"QB","t":"BAL","adp":49.5,"listed":true,"proj":326.0,"bye":13,"pr":2,"tier":1},{"id":"quinshon-judkins","n":"Quinshon Judkins","p":"RB","t":"CLE","adp":49.5,"listed":true,"proj":196.0,"bye":11,"pr":23,"tier":3,"tag":"RISK","note":"Off ankle surgery, ready but possible slow start"},{"id":"tyler-warren","n":"Tyler Warren","p":"TE","t":"IND","adp":50.0,"listed":true,"proj":201.1,"bye":13,"pr":4,"tier":2,"tag":"INJURED","note":"Groin, expected back within a week, fine for Week 1"},{"id":"treveyon-henderson","n":"TreVeyon Henderson","p":"RB","t":"NE","adp":50.5,"listed":true,"proj":171.0,"bye":11,"pr":25,"tier":4,"tag":"FALLER","note":"Vision and patience struggles in camp, behind Stevenson"},{"id":"dj-moore","n":"D.J. Moore","p":"WR","t":"BUF","adp":53.0,"listed":true,"proj":179.0,"bye":7,"pr":34,"tier":5},{"id":"jameson-williams","n":"Jameson Williams","p":"WR","t":"DET","adp":55.0,"listed":true,"proj":206.2,"bye":6,"pr":28,"tier":4},{"id":"bucky-irving","n":"Bucky Irving","p":"RB","t":"TB","adp":56.0,"listed":true,"proj":197.3,"bye":10,"pr":22,"tier":3,"tag":"RISK","note":"Foot and shoulder procedures, on track, expected active Week 1"},{"id":"joe-burrow","n":"Joe Burrow","p":"QB","t":"CIN","adp":57.5,"listed":true,"proj":306.1,"bye":6,"pr":6,"tier":2},{"id":"drake-maye","n":"Drake Maye","p":"QB","t":"NE","adp":58.0,"listed":true,"proj":320.8,"bye":11,"pr":3,"tier":2},{"id":"bhayshul-tuten","n":"Bhayshul Tuten","p":"RB","t":"JAX","adp":58.5,"listed":true,"proj":174.8,"bye":7,"pr":24,"tier":4},{"id":"christian-watson","n":"Christian Watson","p":"WR","t":"GB","adp":60.5,"listed":true,"proj":207.6,"bye":11,"pr":27,"tier":4},{"id":"rome-odunze","n":"Rome Odunze","p":"WR","t":"CHI","adp":61.0,"listed":true,"proj":207.9,"bye":10,"pr":26,"tier":4},{"id":"mike-evans","n":"Mike Evans","p":"WR","t":"SF","adp":61.0,"listed":true,"proj":222.2,"bye":8,"pr":21,"tier":3,"tag":"INJURED","note":"Lingering hamstring issues through camp"},{"id":"parker-washington","n":"Parker Washington","p":"WR","t":"JAX","adp":63.0,"listed":true,"proj":212.4,"bye":7,"pr":24,"tier":4,"tag":"INJURED","note":"Day-to-day with an undisclosed injury"},{"id":"jadarian-price","n":"Jadarian Price","p":"RB","t":"SEA","adp":64.0,"listed":true,"proj":170.0,"bye":11,"pr":27,"tier":4},{"id":"carnell-tate","n":"Carnell Tate","p":"WR","t":"TEN","adp":65.0,"listed":true,"proj":177.3,"bye":9,"pr":36,"tier":5},{"id":"jayden-daniels","n":"Jayden Daniels","p":"QB","t":"WAS","adp":66.0,"listed":true,"proj":308.7,"bye":7,"pr":5,"tier":2},{"id":"brian-thomas","n":"Brian Thomas Jr.","p":"WR","t":"JAX","adp":68.5,"listed":true,"proj":195.4,"bye":7,"pr":30,"tier":4},{"id":"marvin-harrison","n":"Marvin Harrison Jr.","p":"WR","t":"ARI","adp":69.0,"listed":true,"proj":186.2,"bye":14,"pr":32,"tier":5},{"id":"jalen-hurts","n":"Jalen Hurts","p":"QB","t":"PHI","adp":69.0,"listed":true,"proj":310.5,"bye":10,"pr":4,"tier":2},{"id":"caleb-williams","n":"Caleb Williams","p":"QB","t":"CHI","adp":70.0,"listed":true,"proj":299.3,"bye":10,"pr":10,"tier":3},{"id":"jaylen-warren","n":"Jaylen Warren","p":"RB","t":"PIT","adp":71.0,"listed":true,"proj":170.6,"bye":9,"pr":26,"tier":4},{"id":"jonathon-brooks","n":"Jonathon Brooks","p":"RB","t":"CAR","adp":72.0,"listed":true,"proj":154.9,"bye":5,"pr":32,"tier":5,"tag":"RISER","note":"Overtaking Hubbard for the lead back job"},{"id":"tucker-kraft","n":"Tucker Kraft","p":"TE","t":"GB","adp":73.0,"listed":true,"proj":174.4,"bye":11,"pr":7,"tier":3,"tag":"INJURED","note":"Off PUP after ACL, likely Week 1 with reduced snaps"},{"id":"tony-pollard","n":"Tony Pollard","p":"RB","t":"TEN","adp":75.5,"listed":true,"proj":160.1,"bye":9,"pr":31,"tier":5,"tag":"FALLER","note":"Near-even snap split with Spears, no longer a safe volume bet"},{"id":"dk-metcalf","n":"DK Metcalf","p":"WR","t":"PIT","adp":76.5,"listed":true,"proj":183.3,"bye":9,"pr":33,"tier":5},{"id":"sam-laporta","n":"Sam LaPorta","p":"TE","t":"DET","adp":77.5,"listed":true,"proj":196.5,"bye":6,"pr":5,"tier":2,"tag":"INJURED","note":"Hip injury, Week 1 availability in question"},{"id":"harold-fannin","n":"Harold Fannin","p":"TE","t":"CLE","adp":78.0,"listed":true,"proj":180.4,"bye":11,"pr":6,"tier":3},{"id":"kyle-pitts","n":"Kyle Pitts","p":"TE","t":"ATL","adp":78.5,"listed":true,"proj":171.6,"bye":11,"pr":8,"tier":3},{"id":"courtland-sutton","n":"Courtland Sutton","p":"WR","t":"DEN","adp":78.5,"listed":true,"proj":174.3,"bye":10,"pr":37,"tier":6,"tag":"FALLER","note":"ADP down about 8; Waddle is now the clear Broncos WR1"},{"id":"rhamondre-stevenson","n":"Rhamondre Stevenson","p":"RB","t":"NE","adp":79.0,"listed":true,"proj":169.0,"bye":11,"pr":28,"tier":4,"tag":"RISER","note":"Reported clear lead back in Patriots camp"},{"id":"dak-prescott","n":"Dak Prescott","p":"QB","t":"DAL","adp":79.0,"listed":true,"proj":303.9,"bye":14,"pr":7,"tier":2},{"id":"rj-harvey","n":"RJ Harvey","p":"RB","t":"DEN","adp":80.0,"listed":true,"proj":144.1,"bye":10,"pr":37,"tier":6},{"id":"justin-herbert","n":"Justin Herbert","p":"QB","t":"LAC","adp":83.5,"listed":true,"proj":295.5,"bye":7,"pr":13,"tier":3},{"id":"rico-dowdle","n":"Rico Dowdle","p":"RB","t":"PIT","adp":85.0,"listed":true,"proj":161.1,"bye":9,"pr":29,"tier":5},{"id":"trevor-lawrence","n":"Trevor Lawrence","p":"QB","t":"JAX","adp":87.0,"listed":true,"proj":303.4,"bye":7,"pr":8,"tier":2},{"id":"quentin-johnston","n":"Quentin Johnston","p":"WR","t":"LAC","adp":88.0,"listed":true,"proj":163.9,"bye":7,"pr":49,"tier":7},{"id":"chris-godwin","n":"Chris Godwin","p":"WR","t":"TB","adp":88.5,"listed":true,"proj":173.6,"bye":10,"pr":38,"tier":6},{"id":"chuba-hubbard","n":"Chuba Hubbard","p":"RB","t":"CAR","adp":89.5,"listed":true,"proj":147.9,"bye":5,"pr":36,"tier":5,"tag":"INJURED","note":"Hamstring, week-to-week; Brooks taking first-team reps"},{"id":"michael-wilson","n":"Michael Wilson","p":"WR","t":"ARI","adp":92.5,"listed":true,"proj":166.0,"bye":14,"pr":47,"tier":6},{"id":"josh-downs","n":"Josh Downs","p":"WR","t":"IND","adp":93.0,"listed":true,"proj":172.3,"bye":13,"pr":39,"tier":6,"tag":"RISER","note":"Now a regular in two-WR sets"},{"id":"michael-pittman","n":"Michael Pittman Jr.","p":"WR","t":"PIT","adp":93.5,"listed":true,"proj":170.9,"bye":9,"pr":41,"tier":6,"tag":"INJURED","note":"Hamstring pull called minor, expected fine for Week 1"},{"id":"jk-dobbins","n":"J.K. Dobbins","p":"RB","t":"DEN","adp":93.5,"listed":true,"proj":160.2,"bye":10,"pr":30,"tier":5},{"id":"stefon-diggs","n":"Stefon Diggs","p":"WR","t":"WAS","adp":96.5,"listed":true,"proj":157.3,"bye":7,"pr":53,"tier":7,"tag":"RISER","note":"Signed with Commanders, ADP up sharply"},{"id":"rachaad-white","n":"Rachaad White","p":"RB","t":"WAS","adp":97.0,"listed":true,"proj":128.1,"bye":7,"pr":41,"tier":6,"tag":"FALLER","note":"Croskey-Merritt's receiving work cuts into his role"},{"id":"blake-corum","n":"Blake Corum","p":"RB","t":"LAR","adp":97.5,"listed":true,"proj":135.3,"bye":11,"pr":39,"tier":6},{"id":"matthew-stafford","n":"Matthew Stafford","p":"QB","t":"LAR","adp":97.5,"listed":true,"proj":280.2,"bye":11,"pr":16,"tier":4},{"id":"alec-pierce","n":"Alec Pierce","p":"WR","t":"IND","adp":98.0,"listed":true,"proj":177.9,"bye":13,"pr":35,"tier":5,"tag":"INJURED","note":"On PUP after ankle surgery, snap count likely limited early"},{"id":"makai-lemon","n":"Makai Lemon","p":"WR","t":"PHI","adp":98.0,"listed":true,"proj":168.5,"bye":10,"pr":46,"tier":6,"tag":"INJURED","note":"Lingering hamstring costing critical rookie reps, ADP falling"},{"id":"jaxson-dart","n":"Jaxson Dart","p":"QB","t":"NYG","adp":99.0,"listed":true,"proj":296.5,"bye":8,"pr":11,"tier":3},{"id":"george-kittle","n":"George Kittle","p":"TE","t":"SF","adp":99.0,"listed":true,"proj":169.3,"bye":8,"pr":10,"tier":3,"tag":"INJURED","note":"Achilles repair, Week 1 availability disputed by sources"},{"id":"kenneth-gainwell","n":"Kenneth Gainwell","p":"RB","t":"TB","adp":99.0,"listed":true,"proj":152.3,"bye":10,"pr":35,"tier":5,"tag":"FALLER","note":"ADP drifting down"},{"id":"wandale-robinson","n":"Wan'Dale Robinson","p":"WR","t":"TEN","adp":100.5,"listed":true,"proj":170.7,"bye":9,"pr":42,"tier":6},{"id":"kyle-monangai","n":"Kyle Monangai","p":"RB","t":"CHI","adp":102.0,"listed":true,"proj":154.6,"bye":10,"pr":33,"tier":5,"tag":"INJURED","note":"Hyperextended knee, multiple weeks, Week 1 in doubt"},{"id":"patrick-mahomes","n":"Patrick Mahomes","p":"QB","t":"KC","adp":104.0,"listed":true,"proj":286.7,"bye":5,"pr":14,"tier":4,"tag":"RISK","note":"Off December ACL reconstruction, expected Week 1, rushing likely down"},{"id":"jordan-addison","n":"Jordan Addison","p":"WR","t":"MIN","adp":104.5,"listed":true,"proj":171.7,"bye":6,"pr":40,"tier":6},{"id":"brock-purdy","n":"Brock Purdy","p":"QB","t":"SF","adp":105.5,"listed":true,"proj":303.2,"bye":8,"pr":9,"tier":2},{"id":"jayden-reed","n":"Jayden Reed","p":"WR","t":"GB","adp":107.5,"listed":true,"proj":197.6,"bye":11,"pr":29,"tier":4},{"id":"jordan-mason","n":"Jordan Mason","p":"RB","t":"MIN","adp":107.5,"listed":true,"proj":153.7,"bye":6,"pr":34,"tier":5},{"id":"jordyn-tyson","n":"Jordyn Tyson","p":"WR","t":"NO","adp":108.0,"listed":true,"proj":111.0,"bye":8,"pr":69,"tier":9,"tag":"OUT","note":"Hamstring, out roughly two months, may open on IR"},{"id":"bo-nix","n":"Bo Nix","p":"QB","t":"DEN","adp":111.0,"listed":true,"proj":295.7,"bye":10,"pr":12,"tier":3,"tag":"RISK","note":"January ankle surgery, ready, elevated chronic ankle risk"},{"id":"jakobi-meyers","n":"Jakobi Meyers","p":"WR","t":"JAX","adp":111.0,"listed":true,"proj":169.3,"bye":7,"pr":45,"tier":6},{"id":"jacory-croskey-merritt","n":"Jacory Croskey-Merritt","p":"RB","t":"WAS","adp":111.5,"listed":true,"proj":127.9,"bye":7,"pr":42,"tier":6,"tag":"RISER","note":"More receiving work in camp"},{"id":"travis-kelce","n":"Travis Kelce","p":"TE","t":"KC","adp":112.0,"listed":true,"proj":171.4,"bye":5,"pr":9,"tier":3},{"id":"jake-ferguson","n":"Jake Ferguson","p":"TE","t":"DAL","adp":114.0,"listed":true,"proj":159.8,"bye":14,"pr":14,"tier":4},{"id":"dezhaun-stribling","n":"De'Zhaun Stribling","p":"WR","t":"SF","adp":114.0,"listed":true,"proj":128.4,"bye":8,"pr":60,"tier":8,"tag":"RISER","note":"ADP up 26 spots after preseason; Pearsall out for the year"},{"id":"jared-goff","n":"Jared Goff","p":"QB","t":"DET","adp":115.0,"listed":true,"proj":283.5,"bye":6,"pr":15,"tier":4},{"id":"dallas-goedert","n":"Dallas Goedert","p":"TE","t":"PHI","adp":117.0,"listed":true,"proj":136.0,"bye":10,"pr":23,"tier":5},{"id":"aaron-jones","n":"Aaron Jones","p":"RB","t":"MIN","adp":118.0,"listed":true,"proj":137.1,"bye":6,"pr":38,"tier":6},{"id":"isaiah-likely","n":"Isaiah Likely","p":"TE","t":"NYG","adp":119.5,"listed":true,"proj":157.3,"bye":8,"pr":15,"tier":4},{"id":"matthew-golden","n":"Matthew Golden","p":"WR","t":"GB","adp":119.5,"listed":true,"proj":170.1,"bye":11,"pr":44,"tier":6,"tag":"RISER","note":"ADP rising into a large vacated Packers target share"},{"id":"kc-concepcion","n":"KC Concepcion","p":"WR","t":"CLE","adp":120.5,"listed":true,"proj":156.4,"bye":11,"pr":54,"tier":7},{"id":"kyler-murray","n":"Kyler Murray","p":"QB","t":"MIN","adp":122.0,"listed":true,"proj":274.7,"bye":6,"pr":19,"tier":5,"tag":"NEWS","note":"Won the Vikings starting job over J.J. McCarthy"},{"id":"romeo-doubs","n":"Romeo Doubs","p":"WR","t":"NE","adp":122.5,"listed":true,"proj":161.2,"bye":11,"pr":52,"tier":7},{"id":"dalton-kincaid","n":"Dalton Kincaid","p":"TE","t":"BUF","adp":123.0,"listed":true,"proj":163.6,"bye":7,"pr":11,"tier":4},{"id":"xavier-worthy","n":"Xavier Worthy","p":"WR","t":"KC","adp":123.0,"listed":true,"proj":161.5,"bye":5,"pr":51,"tier":7},{"id":"jayden-higgins","n":"Jayden Higgins","p":"WR","t":"HOU","adp":126.0,"listed":true,"proj":163.7,"bye":8,"pr":50,"tier":7,"tag":"OUT","note":"Torn ACL, out for the entire 2026 season"},{"id":"baker-mayfield","n":"Baker Mayfield","p":"QB","t":"TB","adp":128.0,"listed":true,"proj":274.9,"bye":10,"pr":18,"tier":5},{"id":"jordan-love","n":"Jordan Love","p":"QB","t":"GB","adp":128.0,"listed":true,"proj":278.5,"bye":11,"pr":17,"tier":4},{"id":"mark-andrews","n":"Mark Andrews","p":"TE","t":"BAL","adp":129.0,"listed":true,"proj":162.5,"bye":13,"pr":12,"tier":4},{"id":"jalen-coker","n":"Jalen Coker","p":"WR","t":"CAR","adp":129.0,"listed":true,"proj":165.9,"bye":5,"pr":48,"tier":6,"tag":"RISER","note":"Brazzell's season-ending injury makes him the clear Panthers WR2"},{"id":"khalil-shakir","n":"Khalil Shakir","p":"WR","t":"BUF","adp":130.0,"listed":true,"proj":170.7,"bye":7,"pr":43,"tier":6},{"id":"chris-rodriguez","n":"Chris Rodriguez","p":"RB","t":"JAX","adp":131.5,"listed":true,"proj":132.5,"bye":7,"pr":40,"tier":6},{"id":"tyler-shough","n":"Tyler Shough","p":"QB","t":"NO","adp":132.0,"listed":true,"proj":270.9,"bye":8,"pr":20,"tier":5},{"id":"deebo-samuel","n":"Deebo Samuel","p":"WR","t":"SF","adp":133.5,"listed":true,"proj":155.7,"bye":8,"pr":55,"tier":7,"tag":"RISER","note":"Pearsall out for the year, likely 49ers No. 2 WR"},{"id":"tyrone-tracy","n":"Tyrone Tracy","p":"RB","t":"NYG","adp":133.5,"listed":true,"proj":111.3,"bye":8,"pr":45,"tier":7,"tag":"NEWS","note":"Listed as co-starter with Skattebo on the Giants depth chart"},{"id":"woody-marks","n":"Woody Marks","p":"RB","t":"HOU","adp":137.5,"listed":true,"proj":83.8,"bye":8,"pr":50,"tier":8},{"id":"rashid-shaheed","n":"Rashid Shaheed","p":"WR","t":"SEA","adp":139.0,"listed":true,"proj":138.1,"bye":11,"pr":56,"tier":8},{"id":"malik-willis","n":"Malik Willis","p":"QB","t":"MIA","adp":140.0,"listed":true,"proj":270.1,"bye":6,"pr":21,"tier":5},{"id":"zach-charbonnet","n":"Zach Charbonnet","p":"RB","t":"SEA","adp":140.5,"listed":true,"proj":67.2,"bye":11,"pr":57,"tier":9,"tag":"OUT","note":"On PUP after January ACL tear, mid-October return most realistic"},{"id":"tyler-allgeier","n":"Tyler Allgeier","p":"RB","t":"ARI","adp":141.0,"listed":true,"proj":69.4,"bye":14,"pr":54,"tier":9},{"id":"marshawn-lloyd","n":"MarShawn Lloyd","p":"RB","t":"GB","adp":144.0,"listed":true,"proj":99.5,"bye":11,"pr":47,"tier":7,"tag":"RISER","note":"First-team reps with Jacobs' status uncertain"},{"id":"alvin-kamara","n":"Alvin Kamara","p":"RB","t":"NO","adp":145.5,"listed":true,"proj":114.6,"bye":8,"pr":43,"tier":7,"tag":"OUT","note":"Sprained MCL, expected out roughly one month"},{"id":"tyjae-spears","n":"Tyjae Spears","p":"RB","t":"TEN","adp":145.5,"listed":true,"proj":114.6,"bye":9,"pr":44,"tier":7,"tag":"RISER","note":"Out-snapped Pollard 13-9 in the preseason opener"},{"id":"juwan-johnson","n":"Juwan Johnson","p":"TE","t":"NO","adp":146.0,"listed":true,"proj":140.9,"bye":8,"pr":21,"tier":5,"tag":"RISER","note":"Tyson injury gives him a big role to open the season"},{"id":"brenton-strange","n":"Brenton Strange","p":"TE","t":"JAX","adp":146.5,"listed":true,"proj":161.0,"bye":7,"pr":13,"tier":4},{"id":"isiah-pacheco","n":"Isiah Pacheco","p":"RB","t":"DET","adp":147.5,"listed":true,"proj":100.4,"bye":6,"pr":46,"tier":7,"tag":"INJURED","note":"Sprained MCL but on track to start Week 1"},{"id":"denzel-boston","n":"Denzel Boston","p":"WR","t":"CLE","adp":148.0,"listed":true,"proj":134.7,"bye":11,"pr":57,"tier":8},{"id":"keaton-mitchell","n":"Keaton Mitchell","p":"RB","t":"LAC","adp":148.0,"listed":true,"proj":96.9,"bye":7,"pr":48,"tier":7},{"id":"chigoziem-okonkwo","n":"Chigoziem Okonkwo","p":"TE","t":"WAS","adp":151.0,"listed":true,"proj":144.1,"bye":7,"pr":18,"tier":5,"tag":"FALLER","note":"Diggs signing shaves his target projection"},{"id":"oronde-gadsden","n":"Oronde Gadsden","p":"TE","t":"LAC","adp":153.0,"listed":true,"proj":141.8,"bye":7,"pr":20,"tier":5,"tag":"FALLER","note":"Playing behind Kolar and Njoku, not an early fantasy option"},{"id":"tank-bigsby","n":"Tank Bigsby","p":"RB","t":"PHI","adp":154.0,"listed":true,"proj":65.2,"bye":10,"pr":61,"tier":10},{"id":"tre-tucker","n":"Tre Tucker","p":"WR","t":"LV","adp":154.0,"listed":true,"proj":125.9,"bye":13,"pr":63,"tier":8},{"id":"jalen-mcmillan","n":"Jalen McMillan","p":"WR","t":"TB","adp":157.0,"listed":true,"proj":127.4,"bye":10,"pr":61,"tier":8},{"id":"tj-hockenson","n":"T.J. Hockenson","p":"TE","t":"MIN","adp":158.0,"listed":true,"proj":155.0,"bye":6,"pr":16,"tier":4},{"id":"sam-darnold","n":"Sam Darnold","p":"QB","t":"SEA","adp":158.0,"listed":true,"proj":262.7,"bye":11,"pr":22,"tier":5},{"id":"mike-washington","n":"Mike Washington Jr.","p":"RB","t":"LV","adp":159.0,"listed":true,"proj":69.1,"bye":13,"pr":55,"tier":9},{"id":"brian-robinson","n":"Brian Robinson","p":"RB","t":"ATL","adp":160.0,"listed":true,"proj":69.9,"bye":11,"pr":51,"tier":9},{"id":"jauan-jennings","n":"Jauan Jennings","p":"WR","t":"MIN","adp":160.5,"listed":true,"proj":105.7,"bye":6,"pr":72,"tier":9},{"id":"dylan-sampson","n":"Dylan Sampson","p":"RB","t":"CLE","adp":161.0,"listed":true,"proj":88.7,"bye":11,"pr":49,"tier":8},{"id":"jalen-nailor","n":"Jalen Nailor","p":"WR","t":"LV","adp":163.0,"listed":true,"proj":130.6,"bye":13,"pr":59,"tier":8},{"id":"cyrus-allen","n":"Cyrus Allen","p":"WR","t":"KC","adp":163.0,"listed":true,"proj":94.5,"bye":5,"pr":84,"tier":10},{"id":"keenan-allen","n":"Keenan Allen","p":"WR","t":"IND","adp":163.5,"listed":true,"proj":106.8,"bye":13,"pr":71,"tier":9,"tag":"NEWS","note":"Signed a one-year Colts deal, reunites with Steichen"},{"id":"kenyon-sadiq","n":"Kenyon Sadiq","p":"TE","t":"NYJ","adp":164.5,"listed":true,"proj":100.2,"bye":13,"pr":31,"tier":8},{"id":"terrance-ferguson","n":"Terrance Ferguson","p":"TE","t":"LAR","adp":165.0,"listed":true,"proj":100.3,"bye":11,"pr":30,"tier":7},{"id":"omar-cooper","n":"Omar Cooper Jr.","p":"WR","t":"NYJ","adp":165.5,"listed":true,"proj":127.1,"bye":13,"pr":62,"tier":8},{"id":"hunter-henry","n":"Hunter Henry","p":"TE","t":"NE","adp":166.0,"listed":true,"proj":153.5,"bye":11,"pr":17,"tier":4},{"id":"cj-stroud","n":"C.J. Stroud","p":"QB","t":"HOU","adp":166.0,"listed":true,"proj":247.8,"bye":8,"pr":23,"tier":6,"tag":"FALLER","note":"Higgins' ACL thins the receiving corps"},{"id":"daniel-jones","n":"Daniel Jones","p":"QB","t":"IND","adp":167.0,"listed":true,"proj":223.5,"bye":13,"pr":26,"tier":6,"tag":"RISK","note":"Achilles repair, expected ready, reduced early rushing"},{"id":"dalton-schultz","n":"Dalton Schultz","p":"TE","t":"HOU","adp":167.5,"listed":true,"proj":139.2,"bye":8,"pr":22,"tier":5,"tag":"RISER","note":"Higgins' ACL makes him a Texans top-two target"},{"id":"jonah-coleman","n":"Jonah Coleman","p":"RB","t":"DEN","adp":169.0,"listed":true,"proj":63.9,"bye":10,"pr":72,"tier":10},{"id":"tank-dell","n":"Tank Dell","p":"WR","t":"HOU","adp":169.5,"listed":true,"proj":115.8,"bye":8,"pr":66,"tier":9,"tag":"INJURED","note":"Still working back from knee dislocation, slow start expected"},{"id":"jerry-jeudy","n":"Jerry Jeudy","p":"WR","t":"CLE","adp":171.5,"listed":true,"proj":119.6,"bye":11,"pr":65,"tier":9},{"id":"tyler-loop","n":"Tyler Loop","p":"K","t":"BAL","adp":172.0,"listed":true,"proj":106.0,"bye":13,"pr":8,"tier":2},{"id":"jake-bates","n":"Jake Bates","p":"K","t":"DET","adp":175.0,"listed":true,"proj":105.0,"bye":6,"pr":11,"tier":2},{"id":"calvin-ridley","n":"Calvin Ridley","p":"WR","t":"TEN","adp":175.5,"listed":true,"proj":77.3,"bye":9,"pr":97,"tier":10},{"id":"braelon-allen","n":"Braelon Allen","p":"RB","t":"NYJ","adp":176.5,"listed":true,"proj":64.3,"bye":13,"pr":69,"tier":10},{"id":"brandon-aubrey","n":"Brandon Aubrey","p":"K","t":"DAL","adp":176.5,"listed":true,"proj":116.0,"bye":14,"pr":1,"tier":1},{"id":"cam-ward","n":"Cam Ward","p":"QB","t":"TEN","adp":179.5,"listed":true,"proj":227.8,"bye":9,"pr":25,"tier":6},{"id":"ryan-flournoy","n":"Ryan Flournoy","p":"WR","t":"DAL","adp":181.5,"listed":true,"proj":121.2,"bye":14,"pr":64,"tier":8},{"id":"cooper-kupp","n":"Cooper Kupp","p":"WR","t":"SEA","adp":183.0,"listed":true,"proj":86.4,"bye":11,"pr":90,"tier":10,"tag":"NEWS","note":"Depth role in Seattle behind the younger receivers"},{"id":"adonai-mitchell","n":"Adonai Mitchell","p":"WR","t":"NYJ","adp":183.0,"listed":true,"proj":98.3,"bye":13,"pr":78,"tier":10},{"id":"houston-texans","n":"Houston Texans","p":"DST","t":"HOU","adp":183.0,"listed":true,"proj":132.0,"bye":8,"pr":1,"tier":1},{"id":"malik-washington","n":"Malik Washington","p":"WR","t":"MIA","adp":183.0,"listed":true,"proj":131.3,"bye":6,"pr":58,"tier":8},{"id":"tre-harris","n":"Tre' Harris","p":"WR","t":"LAC","adp":184.5,"listed":true,"proj":112.9,"bye":7,"pr":68,"tier":9},{"id":"isaac-teslaa","n":"Isaac TeSlaa","p":"WR","t":"DET","adp":184.5,"listed":true,"proj":87.1,"bye":6,"pr":89,"tier":10},{"id":"bryce-young","n":"Bryce Young","p":"QB","t":"CAR","adp":185.0,"listed":true,"proj":235.6,"bye":5,"pr":24,"tier":6},{"id":"aj-barner","n":"AJ Barner","p":"TE","t":"SEA","adp":185.0,"listed":true,"proj":142.4,"bye":11,"pr":19,"tier":5},{"id":"greg-dulcich","n":"Greg Dulcich","p":"TE","t":"MIA","adp":186.5,"listed":true,"proj":110.9,"bye":6,"pr":28,"tier":7},{"id":"denver-broncos","n":"Denver Broncos","p":"DST","t":"DEN","adp":187.0,"listed":true,"proj":129.4,"bye":10,"pr":2,"tier":1},{"id":"james-conner","n":"James Conner","p":"RB","t":"ARI","adp":188.0,"listed":true,"proj":64.9,"bye":14,"pr":65,"tier":10},{"id":"los-angeles-rams","n":"Los Angeles Rams","p":"DST","t":"LAR","adp":188.0,"listed":true,"proj":126.8,"bye":11,"pr":3,"tier":1},{"id":"antonio-williams","n":"Antonio Williams","p":"WR","t":"WAS","adp":188.5,"listed":true,"proj":75.2,"bye":7,"pr":100,"tier":10},{"id":"seattle-seahawks","n":"Seattle Seahawks","p":"DST","t":"SEA","adp":189.0,"listed":true,"proj":124.2,"bye":11,"pr":4,"tier":1},{"id":"brandon-aiyuk","n":"Brandon Aiyuk","p":"WR","t":"SF","adp":189.0,"listed":true,"proj":77.3,"bye":8,"pr":98,"tier":10},{"id":"jaydon-blue","n":"Jaydon Blue","p":"RB","t":"DAL","adp":189.5,"listed":true,"proj":64.9,"bye":14,"pr":66,"tier":10},{"id":"ray-davis","n":"Ray Davis","p":"RB","t":"BUF","adp":192.5,"listed":true,"proj":65.1,"bye":7,"pr":64,"tier":10},{"id":"kimani-vidal","n":"Kimani Vidal","p":"RB","t":"LAC","adp":193.5,"listed":true,"proj":65.5,"bye":7,"pr":59,"tier":9},{"id":"philadelphia-eagles","n":"Philadelphia Eagles","p":"DST","t":"PHI","adp":194.0,"listed":true,"proj":121.6,"bye":10,"pr":5,"tier":1},{"id":"travis-hunter","n":"Travis Hunter","p":"WR","t":"JAX","adp":194.5,"listed":true,"proj":100.6,"bye":7,"pr":75,"tier":10,"tag":"NEWS","note":"LCL reconstruction healed, on track for Week 1"},{"id":"kaimi-fairbairn","n":"Ka'imi Fairbairn","p":"K","t":"HOU","adp":195.0,"listed":true,"proj":113.0,"bye":8,"pr":2,"tier":1},{"id":"pittsburgh-steelers","n":"Pittsburgh Steelers","p":"DST","t":"PIT","adp":196.0,"listed":true,"proj":119.0,"bye":9,"pr":6,"tier":1},{"id":"dontayvion-wicks","n":"Dontayvion Wicks","p":"WR","t":"PHI","adp":196.5,"listed":true,"proj":70.4,"bye":10,"pr":103,"tier":10},{"id":"new-england-patriots","n":"New England Patriots","p":"DST","t":"NE","adp":198.0,"listed":true,"proj":116.4,"bye":11,"pr":7,"tier":2},{"id":"eddy-pineiro","n":"Eddy Pineiro","p":"K","t":"SF","adp":198.0,"listed":true,"proj":101.0,"bye":8,"pr":14,"tier":3},{"id":"justice-hill","n":"Justice Hill","p":"RB","t":"BAL","adp":198.5,"listed":true,"proj":67.7,"bye":13,"pr":56,"tier":9},{"id":"harrison-mevis","n":"Harrison Mevis","p":"K","t":"LAR","adp":199.0,"listed":true,"proj":106.0,"bye":11,"pr":9,"tier":2},{"id":"baltimore-ravens","n":"Baltimore Ravens","p":"DST","t":"BAL","adp":202.0,"listed":true,"proj":113.8,"bye":13,"pr":8,"tier":2},{"id":"minnesota-vikings","n":"Minnesota Vikings","p":"DST","t":"MIN","adp":203.0,"listed":true,"proj":111.2,"bye":6,"pr":9,"tier":2},{"id":"evan-mcpherson","n":"Evan McPherson","p":"K","t":"CIN","adp":203.0,"listed":true,"proj":106.0,"bye":6,"pr":10,"tier":2},{"id":"rashod-bateman","n":"Rashod Bateman","p":"WR","t":"BAL","adp":204.0,"listed":true,"proj":102.3,"bye":13,"pr":74,"tier":10},{"id":"los-angeles-chargers","n":"Los Angeles Chargers","p":"DST","t":"LAC","adp":204.0,"listed":true,"proj":108.6,"bye":7,"pr":10,"tier":2},{"id":"jacksonville-jaguars","n":"Jacksonville Jaguars","p":"DST","t":"JAX","adp":205.0,"listed":true,"proj":106.0,"bye":7,"pr":11,"tier":2},{"id":"zachariah-branch","n":"Zachariah Branch","p":"WR","t":"ATL","adp":205.0,"listed":true,"proj":78.5,"bye":11,"pr":94,"tier":10},{"id":"jason-myers","n":"Jason Myers","p":"K","t":"SEA","adp":205.5,"listed":true,"proj":111.0,"bye":11,"pr":4,"tier":1},{"id":"kaelon-black","n":"Kaelon Black","p":"RB","t":"SF","adp":206.0,"listed":true,"proj":65.5,"bye":8,"pr":58,"tier":9},{"id":"troy-franklin","n":"Troy Franklin","p":"WR","t":"DEN","adp":206.0,"listed":true,"proj":66.1,"bye":10,"pr":108,"tier":10},{"id":"emmett-johnson","n":"Emmett Johnson","p":"RB","t":"KC","adp":207.0,"listed":true,"proj":65.2,"bye":5,"pr":62,"tier":10},{"id":"kayshon-boutte","n":"Kayshon Boutte","p":"WR","t":"NE","adp":207.0,"listed":true,"proj":94.6,"bye":11,"pr":83,"tier":10},{"id":"emanuel-wilson","n":"Emanuel Wilson","p":"RB","t":"SEA","adp":207.0,"listed":true,"proj":65.2,"bye":11,"pr":63,"tier":10},{"id":"cameron-dicker","n":"Cameron Dicker","p":"K","t":"LAC","adp":207.5,"listed":true,"proj":106.0,"bye":7,"pr":7,"tier":2},{"id":"cam-little","n":"Cam Little","p":"K","t":"JAX","adp":207.5,"listed":true,"proj":112.0,"bye":7,"pr":3,"tier":1},{"id":"malachi-fields","n":"Malachi Fields","p":"WR","t":"NYG","adp":208.0,"listed":true,"proj":91.0,"bye":8,"pr":87,"tier":10},{"id":"pat-freiermuth","n":"Pat Freiermuth","p":"TE","t":"PIT","adp":208.0,"listed":true,"proj":128.4,"bye":9,"pr":25,"tier":6},{"id":"fernando-mendoza","n":"Fernando Mendoza","p":"QB","t":"LV","adp":210.0,"listed":true,"proj":212.2,"bye":13,"pr":28,"tier":6},{"id":"jacoby-brissett","n":"Jacoby Brissett","p":"QB","t":"ARI","adp":210.0,"listed":true,"proj":160.0,"bye":14,"pr":30,"tier":7},{"id":"darnell-mooney","n":"Darnell Mooney","p":"WR","t":"NYG","adp":211.0,"listed":true,"proj":97.0,"bye":8,"pr":80,"tier":10},{"id":"harrison-butker","n":"Harrison Butker","p":"K","t":"KC","adp":211.0,"listed":true,"proj":100.0,"bye":5,"pr":15,"tier":3},{"id":"cade-otton","n":"Cade Otton","p":"TE","t":"TB","adp":212.0,"listed":true,"proj":122.3,"bye":10,"pr":27,"tier":6},{"id":"aaron-rodgers","n":"Aaron Rodgers","p":"QB","t":"PIT","adp":212.5,"listed":true,"proj":177.0,"bye":9,"pr":29,"tier":7},{"id":"gunnar-helm","n":"Gunnar Helm","p":"TE","t":"TEN","adp":212.5,"listed":true,"proj":130.3,"bye":9,"pr":24,"tier":6},{"id":"colby-parkinson","n":"Colby Parkinson","p":"TE","t":"LAR","adp":213.0,"listed":true,"proj":76.3,"bye":11,"pr":39,"tier":8},{"id":"sean-tucker","n":"Sean Tucker","p":"RB","t":"TB","adp":214.5,"listed":true,"proj":64.6,"bye":10,"pr":68,"tier":10},{"id":"jakobi-lane","n":"Ja'Kobi Lane","p":"WR","t":"BAL","adp":215.0,"listed":true,"proj":104.9,"bye":13,"pr":73,"tier":10},{"id":"jordan-james","n":"Jordan James","p":"RB","t":"SF","adp":217.5,"listed":true,"proj":64.3,"bye":8,"pr":71,"tier":10,"tag":"INJURED","note":"Fractured rib, expected to miss a few weeks"},{"id":"george-holani","n":"George Holani","p":"RB","t":"SEA","adp":218.0,"listed":true,"proj":64.3,"bye":11,"pr":70,"tier":10},{"id":"mike-gesicki","n":"Mike Gesicki","p":"TE","t":"CIN","adp":218.0,"listed":true,"proj":104.9,"bye":6,"pr":29,"tier":7},{"id":"detroit-lions","n":"Detroit Lions","p":"DST","t":"DET","adp":219.0,"listed":true,"proj":103.4,"bye":6,"pr":12,"tier":3},{"id":"evan-engram","n":"Evan Engram","p":"TE","t":"DEN","adp":221.0,"listed":true,"proj":70.7,"bye":10,"pr":43,"tier":8},{"id":"germie-bernard","n":"Germie Bernard","p":"WR","t":"PIT","adp":222.0,"listed":true,"proj":98.9,"bye":9,"pr":76,"tier":10},{"id":"ted-hurst","n":"Ted Hurst","p":"WR","t":"TB","adp":222.5,"listed":true,"proj":97.9,"bye":10,"pr":79,"tier":10},{"id":"kaytron-allen","n":"Kaytron Allen","p":"RB","t":"WAS","adp":223.5,"listed":true,"proj":63.8,"bye":7,"pr":73,"tier":10},{"id":"green-bay-packers","n":"Green Bay Packers","p":"DST","t":"GB","adp":224.0,"listed":true,"proj":100.8,"bye":11,"pr":13,"tier":3},{"id":"nicholas-singleton","n":"Nicholas Singleton","p":"RB","t":"TEN","adp":224.5,"listed":true,"proj":63.7,"bye":9,"pr":74,"tier":10},{"id":"david-njoku","n":"David Njoku","p":"TE","t":"LAC","adp":226.0,"listed":true,"proj":70.7,"bye":7,"pr":42,"tier":8},{"id":"demond-claiborne","n":"Demond Claiborne","p":"RB","t":"MIN","adp":227.0,"listed":true,"proj":64.7,"bye":6,"pr":67,"tier":10},{"id":"andy-borregales","n":"Andy Borregales","p":"K","t":"NE","adp":228.0,"listed":true,"proj":96.0,"bye":11,"pr":19,"tier":3},{"id":"jaylen-wright","n":"Jaylen Wright","p":"RB","t":"MIA","adp":229.0,"listed":true,"proj":65.5,"bye":6,"pr":60,"tier":9},{"id":"kansas-city-chiefs","n":"Kansas City Chiefs","p":"DST","t":"KC","adp":230.0,"listed":true,"proj":98.2,"bye":5,"pr":14,"tier":3},{"id":"buffalo-bills","n":"Buffalo Bills","p":"DST","t":"BUF","adp":231.0,"listed":true,"proj":95.6,"bye":7,"pr":15,"tier":3},{"id":"cairo-santos","n":"Cairo Santos","p":"K","t":"CHI","adp":231.0,"listed":true,"proj":100.0,"bye":10,"pr":16,"tier":3},{"id":"caleb-douglas","n":"Caleb Douglas","p":"WR","t":"MIA","adp":232.5,"listed":true,"proj":94.8,"bye":6,"pr":82,"tier":10},{"id":"pat-bryant","n":"Pat Bryant","p":"WR","t":"DEN","adp":233.0,"listed":true,"proj":96.4,"bye":10,"pr":81,"tier":10},{"id":"dallas-cowboys","n":"Dallas Cowboys","p":"DST","t":"DAL","adp":233.0,"listed":true,"proj":93.0,"bye":14,"pr":16,"tier":3},{"id":"kirk-cousins","n":"Kirk Cousins","p":"QB","t":"LV","adp":233.0,"listed":true,"proj":139.7,"bye":13,"pr":31,"tier":8,"tag":"NEWS","note":"Expected Week 1 starter; rookie Mendoza struggled in preseason"},{"id":"tua-tagovailoa","n":"Tua Tagovailoa","p":"QB","t":"ATL","adp":234.0,"listed":true,"proj":137.9,"bye":11,"pr":32,"tier":8},{"id":"geno-smith","n":"Geno Smith","p":"QB","t":"NYJ","adp":234.5,"listed":true,"proj":222.5,"bye":13,"pr":27,"tier":6},{"id":"chase-mclaughlin","n":"Chase McLaughlin","p":"K","t":"TB","adp":235.0,"listed":true,"proj":105.0,"bye":10,"pr":12,"tier":2},{"id":"tory-horton","n":"Tory Horton","p":"WR","t":"SEA","adp":237.0,"listed":true,"proj":92.0,"bye":11,"pr":85,"tier":10},{"id":"will-reichard","n":"Will Reichard","p":"K","t":"MIN","adp":237.0,"listed":true,"proj":109.0,"bye":6,"pr":5,"tier":1},{"id":"tyquan-thornton","n":"Tyquan Thornton","p":"WR","t":"KC","adp":238.0,"listed":true,"proj":85.0,"bye":5,"pr":92,"tier":10},{"id":"chris-boswell","n":"Chris Boswell","p":"K","t":"PIT","adp":238.0,"listed":true,"proj":107.0,"bye":9,"pr":6,"tier":2},{"id":"jack-bech","n":"Jack Bech","p":"WR","t":"LV","adp":239.0,"listed":true,"proj":77.9,"bye":13,"pr":95,"tier":10,"tag":"FALLER","note":"Quiet camp start, falling behind Raiders receiver peers"},{"id":"shedeur-sanders","n":"Shedeur Sanders","p":"QB","t":"CLE","adp":239.5,"listed":true,"proj":97.1,"bye":11,"pr":36,"tier":8},{"id":"ollie-gordon","n":"Ollie Gordon","p":"RB","t":"MIA","adp":240.0,"listed":true,"proj":69.8,"bye":6,"pr":52,"tier":9},{"id":"samaje-perine","n":"Samaje Perine","p":"RB","t":"CIN","adp":240.0,"listed":true,"proj":69.8,"bye":6,"pr":53,"tier":9},{"id":"jaylin-noel","n":"Jaylin Noel","p":"WR","t":"HOU","adp":241.0,"listed":true,"proj":113.9,"bye":8,"pr":67,"tier":9,"tag":"RISER","note":"Higgins' ACL opens significant Texans WR snaps"},{"id":"tyler-bass","n":"Tyler Bass","p":"K","t":"BUF","adp":241.0,"listed":true,"proj":103.0,"bye":7,"pr":13,"tier":2},{"id":"jake-tonges","n":"Jake Tonges","p":"TE","t":"SF","adp":242.0,"listed":true,"proj":70.8,"bye":8,"pr":41,"tier":8},{"id":"eli-stowers","n":"Eli Stowers","p":"TE","t":"PHI","adp":242.5,"listed":true,"proj":81.4,"bye":10,"pr":34,"tier":8},{"id":"carson-beck","n":"Carson Beck","p":"QB","t":"ARI","adp":243.0,"listed":true,"proj":101.0,"bye":14,"pr":35,"tier":8},{"id":"deshaun-watson","n":"Deshaun Watson","p":"QB","t":"CLE","adp":244.0,"listed":true,"proj":102.1,"bye":11,"pr":34,"tier":8,"tag":"FALLER","note":"Eight interceptions in nine camp practices, outplayed by Sanders"},{"id":"christian-kirk","n":"Christian Kirk","p":"WR","t":"SF","adp":244.0,"listed":true,"proj":98.4,"bye":8,"pr":77,"tier":10},{"id":"mason-taylor","n":"Mason Taylor","p":"TE","t":"NYJ","adp":245.0,"listed":true,"proj":96.4,"bye":13,"pr":32,"tier":8},{"id":"michael-penix","n":"Michael Penix","p":"QB","t":"ATL","adp":247.0,"listed":true,"proj":108.4,"bye":11,"pr":33,"tier":8,"tag":"RISK","note":"Third career ACL tear, roughly 50/50 for Week 1"},{"id":"marquise-brown","n":"Hollywood Brown","p":"WR","t":"PHI","adp":250.0,"listed":true,"proj":67.5,"bye":10,"pr":106,"tier":10},{"id":"darren-waller","n":"Darren Waller","p":"TE","t":"CAR","adp":260,"listed":false,"proj":122.6,"bye":5,"pr":26,"tier":6,"tag":"NEWS","note":"Signed a one-year deal, favorite to lead the Panthers TE room"},{"id":"devaughn-vele","n":"Devaughn Vele","p":"WR","t":"NO","adp":260,"listed":false,"proj":110.6,"bye":8,"pr":70,"tier":9},{"id":"wil-lutz","n":"Wil Lutz","p":"K","t":"DEN","adp":260,"listed":false,"proj":100.0,"bye":10,"pr":17,"tier":3},{"id":"blake-grupe","n":"Blake Grupe","p":"K","t":"IND","adp":260,"listed":false,"proj":99.0,"bye":13,"pr":18,"tier":3},{"id":"nick-folk","n":"Nick Folk","p":"K","t":"ATL","adp":260,"listed":false,"proj":95.0,"bye":11,"pr":20,"tier":3},{"id":"charlie-smyth","n":"Charlie Smyth","p":"K","t":"NO","adp":260,"listed":false,"proj":93.0,"bye":8,"pr":21,"tier":4},{"id":"ryan-fitzgerald","n":"Ryan Fitzgerald","p":"K","t":"CAR","adp":260,"listed":false,"proj":92.0,"bye":5,"pr":22,"tier":4},{"id":"andrei-iosivas","n":"Andrei Iosivas","p":"WR","t":"CIN","adp":260,"listed":false,"proj":91.3,"bye":6,"pr":86,"tier":10},{"id":"jason-sanders","n":"Jason Sanders","p":"K","t":"NYJ","adp":260,"listed":false,"proj":91.0,"bye":13,"pr":23,"tier":4},{"id":"jake-elliott","n":"Jake Elliott","p":"K","t":"PHI","adp":260,"listed":false,"proj":90.0,"bye":10,"pr":24,"tier":4},{"id":"chimere-dike","n":"Chimere Dike","p":"WR","t":"TEN","adp":260,"listed":false,"proj":89.4,"bye":9,"pr":88,"tier":10},{"id":"chad-ryland","n":"Chad Ryland","p":"K","t":"ARI","adp":260,"listed":false,"proj":89.0,"bye":14,"pr":25,"tier":4},{"id":"keon-coleman","n":"Keon Coleman","p":"WR","t":"BUF","adp":260,"listed":false,"proj":85.8,"bye":7,"pr":91,"tier":10},{"id":"darnell-washington","n":"Darnell Washington","p":"TE","t":"PIT","adp":260,"listed":false,"proj":85.1,"bye":9,"pr":33,"tier":8},{"id":"andre-szmyt","n":"Andre Szmyt","p":"K","t":"CLE","adp":260,"listed":false,"proj":84.0,"bye":11,"pr":26,"tier":4},{"id":"joey-slye","n":"Joey Slye","p":"K","t":"TEN","adp":260,"listed":false,"proj":84.0,"bye":9,"pr":27,"tier":4},{"id":"darius-slayton","n":"Darius Slayton","p":"WR","t":"NYG","adp":260,"listed":false,"proj":83.6,"bye":8,"pr":93,"tier":10},{"id":"michael-mayer","n":"Michael Mayer","p":"TE","t":"LV","adp":260,"listed":false,"proj":80.8,"bye":13,"pr":35,"tier":8},{"id":"cole-kmet","n":"Cole Kmet","p":"TE","t":"CHI","adp":260,"listed":false,"proj":79.7,"bye":10,"pr":36,"tier":8},{"id":"kendrick-bourne","n":"Kendrick Bourne","p":"WR","t":"ARI","adp":260,"listed":false,"proj":77.4,"bye":14,"pr":96,"tier":10},{"id":"theo-johnson","n":"Theo Johnson","p":"TE","t":"NYG","adp":260,"listed":false,"proj":77.0,"bye":8,"pr":37,"tier":8},{"id":"dawson-knox","n":"Dawson Knox","p":"TE","t":"BUF","adp":260,"listed":false,"proj":76.4,"bye":7,"pr":38,"tier":8},{"id":"olamide-zaccheaus","n":"Olamide Zaccheaus","p":"WR","t":"ATL","adp":260,"listed":false,"proj":75.8,"bye":11,"pr":99,"tier":10},{"id":"matt-gay","n":"Matt Gay","p":"K","t":"LV","adp":260,"listed":false,"proj":75.0,"bye":13,"pr":28,"tier":4},{"id":"elijah-arroyo","n":"Elijah Arroyo","p":"TE","t":"SEA","adp":260,"listed":false,"proj":72.2,"bye":11,"pr":40,"tier":8},{"id":"kavontae-turpin","n":"KaVontae Turpin","p":"WR","t":"DAL","adp":260,"listed":false,"proj":71.5,"bye":14,"pr":101,"tier":10},{"id":"jahan-dotson","n":"Jahan Dotson","p":"WR","t":"ATL","adp":260,"listed":false,"proj":71.2,"bye":11,"pr":102,"tier":10},{"id":"trey-smack","n":"Trey Smack","p":"K","t":"GB","adp":260,"listed":false,"proj":70.0,"bye":11,"pr":29,"tier":4},{"id":"marvin-mims","n":"Marvin Mims","p":"WR","t":"DEN","adp":260,"listed":false,"proj":69.9,"bye":10,"pr":104,"tier":10},{"id":"demario-douglas","n":"DeMario Douglas","p":"WR","t":"NE","adp":260,"listed":false,"proj":68.8,"bye":11,"pr":105,"tier":10},{"id":"chris-bell","n":"Chris Bell","p":"WR","t":"MIA","adp":260,"listed":false,"proj":67.2,"bye":6,"pr":107,"tier":10},{"id":"xavier-legette","n":"Xavier Legette","p":"WR","t":"CAR","adp":260,"listed":false,"proj":66.0,"bye":5,"pr":109,"tier":10}];
+const POS = ["QB","RB","WR","TE","K","DST"];
+const FLEX_OK = ["RB","WR","TE"];
+const FLEX_SHARE = {RB:0.45, WR:0.45, TE:0.10, QB:0, K:0, DST:0};
+const RISK = {OUT:0.70, INJURED:0.95, RISK:0.97};
+const STORE = "draft-war-room-v1";
+
+const byId = new Map(PLAYERS.map(p => [p.id, p]));
+
+const DEFAULTS = {
+  teams: 12, slot: 5, bench: 6,
+  starters: {QB:1, RB:2, WR:3, TE:1, FLEX:1, DST:1, K:1},
+  picks: []
+};
+const clamp = (v,a,b) => Math.max(a, Math.min(b, isFinite(v) ? v : a));
+const $ = id => document.getElementById(id);
+
+function load(){
+  const base = JSON.parse(JSON.stringify(DEFAULTS));
+  try{
+    const raw = localStorage.getItem(STORE);
+    if(raw){
+      const v = JSON.parse(raw);
+      if(v && Array.isArray(v.picks)){
+        base.picks = v.picks.filter(id => byId.has(id));
+        if(Number.isFinite(v.teams)) base.teams = clamp(v.teams, 4, 16);
+        if(Number.isFinite(v.slot))  base.slot  = clamp(v.slot, 1, base.teams);
+        if(Number.isFinite(v.bench)) base.bench = clamp(v.bench, 0, 12);
+        if(v.starters) for(const k in base.starters)
+          if(Number.isFinite(v.starters[k])) base.starters[k] = clamp(v.starters[k], 0, 6);
+      }
+    }
+  }catch(e){ /* private mode or blocked storage — start fresh */ }
+  return base;
+}
+let S = load();
+function save(){
+  try{ localStorage.setItem(STORE, JSON.stringify(S)); }catch(e){ /* non-fatal */ }
+}
+
+/* ---------- snake math ---------- */
+const rounds = () => Object.values(S.starters).reduce((a,b)=>a+b,0) + S.bench;
+const totalPicks = () => rounds() * S.teams;
+function teamOnPick(p){
+  const r = Math.ceil(p / S.teams);
+  const i = ((p - 1) % S.teams) + 1;
+  return r % 2 === 1 ? i : S.teams + 1 - i;
+}
+function roundOf(p){ return Math.ceil(p / S.teams); }
+function slotInRound(p){ return ((p - 1) % S.teams) + 1; }
+function label(p){ return roundOf(p) + "." + String(slotInRound(p)).padStart(2,"0"); }
+function myPickFrom(p){
+  for(let i = p; i <= totalPicks(); i++) if(teamOnPick(i) === S.slot) return i;
+  return null;
+}
+
+/* ---------- normal CDF ---------- */
+function erf(x){
+  const s = x < 0 ? -1 : 1; x = Math.abs(x);
+  const t = 1/(1 + 0.3275911*x);
+  const y = 1 - (((((1.061405429*t - 1.453152027)*t) + 1.421413741)*t - 0.284496736)*t + 0.254829592)*t*Math.exp(-x*x);
+  return s*y;
+}
+const phi = x => 0.5*(1 + erf(x/Math.SQRT2));
+
+/* ---------- roster helpers ---------- */
+function rosterNeeds(roster){
+  const cnt = {QB:0,RB:0,WR:0,TE:0,K:0,DST:0};
+  roster.forEach(p => cnt[p.p]++);
+  const need = {};
+  for(const pos of POS) need[pos] = Math.max(0, (S.starters[pos]||0) - cnt[pos]);
+  const surplus = FLEX_OK.reduce((a,pos)=> a + Math.max(0, cnt[pos] - (S.starters[pos]||0)), 0);
+  const flexNeed = Math.max(0, (S.starters.FLEX||0) - surplus);
+  return {cnt, need, flexNeed};
+}
+
+/* ---------- the model ---------- */
+function model(){
+  const picks = S.picks.map(id => byId.get(id)).filter(Boolean);
+  const drafted = new Set(S.picks);
+  const avail = PLAYERS.filter(p => !drafted.has(p.id))
+                       .map(p => Object.assign({}, p, {ap: p.proj * (RISK[p.tag] || 1)}));
+
+  const teamRosters = Array.from({length: S.teams + 1}, () => []);
+  picks.forEach((p, i) => teamRosters[teamOnPick(i + 1)].push(p));
+  const mine = teamRosters[S.slot] || [];
+  const myNeeds = rosterNeeds(mine);
+
+  const cur = picks.length + 1;
+  const done = cur > totalPicks();
+  const myNow = myPickFrom(cur);
+  const myNext = myNow === null ? null : myPickFrom(myNow + 1);
+
+  /* league-wide starter demand -> dynamic replacement level */
+  let flexDemand = 0;
+  const demand = {QB:0,RB:0,WR:0,TE:0,K:0,DST:0};
+  for(let t = 1; t <= S.teams; t++){
+    const n = rosterNeeds(teamRosters[t]);
+    for(const pos of POS) demand[pos] += n.need[pos];
+    flexDemand += n.flexNeed;
+  }
+  const byPos = {}, repl = {}, kNeed = {};
+  for(const pos of POS){
+    byPos[pos] = avail.filter(p => p.p === pos).sort((a,b) => b.ap - a.ap);
+    const k = Math.max(1, Math.round(demand[pos] + FLEX_SHARE[pos] * flexDemand));
+    kNeed[pos] = k;
+    const list = byPos[pos];
+    repl[pos] = list.length === 0 ? 0
+      : list[Math.min(list.length - 1, k - 1)].ap * (k > list.length ? 0.9 : 1);
+  }
+
+  /* A static quality bar: the replacement level on a full board. The live
+     replacement level can't measure scarcity on its own — it is defined by the
+     same index it would be compared against, so it always reads exactly parity. */
+  const base = {};
+  for(const pos of POS){
+    const full = PLAYERS.filter(p => p.p === pos)
+      .map(p => p.proj * (RISK[p.tag] || 1)).sort((a,b) => b - a);
+    const k0 = Math.max(1, Math.round(
+      S.teams * ((S.starters[pos]||0) + FLEX_SHARE[pos] * (S.starters.FLEX||0))));
+    base[pos] = full.length ? full[Math.min(full.length - 1, k0 - 1)] : 0;
+  }
+
+  /* survival to my pick after this one */
+  const survive = (p, to) => {
+    if(to === null) return 0;
+    const sd = 4 + 0.28 * p.adp;
+    const gone = n => phi((n - p.adp) / sd);
+    const denom = Math.max(1e-4, 1 - gone(cur - 1));
+    return Math.max(0, Math.min(1, (1 - gone(to)) / denom));
+  };
+  const expBest = pos => {
+    const list = byPos[pos].slice(0, 20);
+    let acc = 0, carry = 1;
+    for(const p of list){
+      const s = survive(p, myNext);
+      acc += p.ap * s * carry; carry *= (1 - s);
+    }
+    return acc + (list.length ? carry * list[list.length-1].ap * 0.85 : 0);
+  };
+  const nextBest = {}; for(const pos of POS) nextBest[pos] = expBest(pos);
+
+  /* my roster shape */
+  const myLeft = rounds() - mine.length;
+  const mustFill = myNeeds.need.K + myNeeds.need.DST;
+  const myByes = {}; mine.forEach(p => { if(p.bye) myByes[p.bye] = (myByes[p.bye]||0) + 1; });
+
+  function needMult(pos){
+    if(pos === "K" || pos === "DST"){
+      if(myNeeds.need[pos] === 0) return 0.01;
+      return myLeft <= mustFill + 1 ? 6 : 0.02;
+    }
+    if(myLeft <= mustFill) return 0.01;
+    if(myNeeds.need[pos] > 0) return 1;
+    if(FLEX_OK.includes(pos) && myNeeds.flexNeed > 0) return 0.92;
+    if(pos === "QB") return myNeeds.cnt.QB >= 2 ? 0.05 : 0.30;
+    if(pos === "TE") return myNeeds.cnt.TE >= 2 ? 0.10 : 0.38;
+    return Math.max(0.30, 0.62 - 0.06 * Math.max(0, myNeeds.cnt[pos] - 3));
+  }
+
+  avail.forEach(p => {
+    p.vor = p.ap - repl[p.p];
+    p.surv = survive(p, myNext);
+    p.urgency = Math.max(0, p.ap - nextBest[p.p]);
+    let bye = 1;
+    if(p.bye && (myByes[p.bye] || 0) >= 3) bye = 0.96;
+    p.score = (p.vor + 0.6 * p.urgency) * needMult(p.p) * bye;
+    p.fall = p.adp - cur;
+  });
+
+  /* tier depth among available */
+  const tierLeft = {};
+  for(const pos of POS){
+    const top = byPos[pos][0];
+    tierLeft[pos] = top ? {tier: top.tier, n: byPos[pos].filter(p => p.tier === top.tier).length} : null;
+  }
+
+  /* recent positional run */
+  const recent = picks.slice(-8);
+  const runs = {};
+  recent.forEach(p => runs[p.p] = (runs[p.p]||0) + 1);
+
+  return {picks, avail, byPos, repl, base, kNeed, demand, flexDemand, teamRosters,
+          mine, myNeeds, cur, done, myNow, myNext, tierLeft, runs, myLeft, mustFill, nextBest};
+}
+
+/* ---------- reasons ---------- */
+function reasonsFor(p, M){
+  const out = [];
+  const n = M.myNeeds;
+  if(n.need[p.p] > 0){
+    const have = n.cnt[p.p], want = S.starters[p.p];
+    out.push({t:"need", s: want > 1 ? `Fills your open ${p.p}${have+1}` : `Fills your open ${p.p}`});
+  } else if(FLEX_OK.includes(p.p) && n.flexNeed > 0){
+    out.push({t:"need", s:"Fills your FLEX"});
+  }
+  if(M.myNext && p.surv < 0.45)
+    out.push({t:"urgent", s:`${Math.round(p.surv*100)}% to last to ${label(M.myNext)}`});
+  const tl = M.tierLeft[p.p];
+  if(tl && tl.tier === p.tier && tl.n <= 2)
+    out.push({t:"urgent", s: tl.n === 1 ? `Last of ${p.p} tier ${p.tier}` : `Only ${tl.n} left in ${p.p} tier ${p.tier}`});
+  if(p.vor > 0) out.push({t:"good", s:`+${Math.round(p.vor)} pts over replacement ${p.p}`});
+  if(p.fall >= 8) out.push({t:"good", s:`Falling — ADP ${Math.round(p.adp)}`});
+  if((M.runs[p.p]||0) >= 4) out.push({t:"urgent", s:`${p.p} run: ${M.runs[p.p]} of last 8`});
+  if(p.tag && RISK[p.tag]) out.push({t:"", s: p.note});
+  return out.slice(0, 4);
+}
+
+/* ---------- rendering ---------- */
+let filterPos = "ALL", query = "";
+
+function el(tag, cls, txt){
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(txt !== undefined) e.textContent = txt;
+  return e;
+}
+const fmt1 = v => v.toFixed(1);
+
+function render(){
+  const M = model();
+  renderState(M); renderAlerts(M); renderRec(M);
+  renderRows(M); renderRoster(M); renderMeters(M); renderLeague(M); renderLog(M);
+  document.getElementById("undoBtn").disabled = S.picks.length === 0;
+  document.getElementById("fmtLabel").textContent =
+    `${S.teams}-team · ${S.starters.QB}QB ${S.starters.RB}RB ${S.starters.WR}WR ${S.starters.TE}TE · Full PPR`;
+}
+
+function renderState(M){
+  const bar = document.getElementById("stateBar");
+  bar.innerHTML = "";
+  if(M.done){
+    const c = el("div","chipstate");
+    c.append(el("span","lab","Draft"), el("span","val","Complete"));
+    bar.append(c); return;
+  }
+  const mine = teamOnPick(M.cur) === S.slot;
+  const now = el("div", "chipstate" + (mine ? " live" : ""));
+  now.append(el("span","lab","On the clock"),
+             el("span","val cond", mine ? "YOU" : "Team " + teamOnPick(M.cur)));
+  const pk = el("div","chipstate");
+  pk.append(el("span","lab","Pick"), el("span","val cond", label(M.cur)));
+  bar.append(pk, now);
+  if(M.myNow !== null && !mine){
+    const away = M.myNow - M.cur;
+    const nx = el("div","chipstate");
+    nx.append(el("span","lab","You pick"),
+              el("span","val cond", label(M.myNow)),
+              el("span","lab", away === 1 ? "next" : away + " away"));
+    bar.append(nx);
+  }
+}
+
+function renderAlerts(M){
+  const box = document.getElementById("alerts");
+  box.innerHTML = "";
+  if(M.done) return;
+  const add = (cls, txt) => { const a = el("div","alert "+cls); a.append(el("span","dot"), el("span",null,txt)); box.append(a); };
+  if(teamOnPick(M.cur) === S.slot) add("turn","You're on the clock");
+  for(const pos of ["RB","WR","TE","QB"]){
+    if((M.runs[pos]||0) >= 4) add("run", `${pos} run — ${M.runs[pos]} of the last 8 picks`);
+  }
+  for(const pos of ["RB","WR","TE"]){
+    const tl = M.tierLeft[pos];
+    if(tl && tl.n === 1) add("tier", `Last ${pos} in tier ${tl.tier} is on the board`);
+  }
+  if(M.myLeft > 0 && M.myLeft <= M.mustFill + 1 && M.mustFill > 0)
+    add("tier", `Only ${M.myLeft} picks left — still need ${M.mustFill > 1 ? "K and DST" : (M.myNeeds.need.K ? "a K" : "a DST")}`);
+}
+
+function renderRec(M){
+  const box = document.getElementById("rec");
+  box.innerHTML = "";
+  if(M.done || M.myNow === null){
+    const h = el("div","rechead"); h.append(el("h2",null,"Draft complete"));
+    const b = el("div","recbody");
+    b.append(el("p",null,"Every pick is in. Your projected starting total is in the roster panel."));
+    box.append(h,b); return;
+  }
+  const ranked = M.avail.slice().sort((a,b) => b.score - a.score);
+  const top = ranked[0];
+  if(!top) return;
+  const mine = teamOnPick(M.cur) === S.slot;
+
+  const head = el("div","rechead");
+  head.append(el("h2", null, mine ? "Take him" : "Your best pick right now"));
+  head.append(el("span","when", mine ? `Pick ${label(M.cur)}` : `Previewing your pick at ${label(M.myNow)}`));
+
+  const body = el("div","recbody");
+  const main = el("div","recmain");
+  const nameCol = el("div","recname");
+  nameCol.append(el("h3","nm cond", top.n));
+  const sub = el("div","sub");
+  sub.append(posChip(top));
+  sub.append(el("span",null, `${top.t}${top.bye ? " · Bye " + top.bye : ""} · ${top.p}${top.pr} · Tier ${top.tier}`));
+  if(top.tag){ const t = el("span","tag "+top.tag, top.tag === "INJURED" ? "INJ" : top.tag); sub.append(t); }
+  nameCol.append(sub);
+  main.append(nameCol);
+
+  const stats = el("div","recstats");
+  stats.append(stat("Proj", fmt1(top.proj)), stat("VOR", (top.vor>0?"+":"") + Math.round(top.vor), true));
+  main.append(stats);
+  body.append(main);
+
+  const rs = el("div","reasons");
+  reasonsFor(top, M).forEach(r => rs.append(el("span","reason "+r.t, r.s)));
+  body.append(rs);
+
+  const acts = el("div","recact");
+  const draftBtn = el("button","btn primary", mine ? `Draft ${top.n}` : `Record pick ${label(M.cur)} → ${top.n}`);
+  draftBtn.onclick = () => draft(top.id);
+  acts.append(draftBtn);
+  body.append(acts);
+
+  const alts = el("div","alts");
+  ranked.slice(1,5).forEach((p,i) => {
+    const r = el("div","altrow");
+    r.onclick = () => draft(p.id);
+    r.append(el("span","rk cond", String(i+2)), posChip(p));
+    const nm = el("div");
+    nm.append(el("div","anm", p.n));
+    const why = reasonsFor(p, M)[0];
+    nm.append(el("div","why", why ? why.s : `${p.t} · ${p.p}${p.pr}`));
+    r.append(nm);
+    r.append(el("span","cell dim num", M.myNext ? Math.round(p.surv*100) + "%" : "—"));
+    r.append(el("span","sc cond", (p.vor>0?"+":"") + Math.round(p.vor)));
+    alts.append(r);
+  });
+
+  box.append(head, body, alts);
+}
+function stat(lab, val, hi){
+  const s = el("div","stat" + (hi ? " hi" : ""));
+  s.append(el("div","lab",lab), el("div","val cond",String(val)));
+  return s;
+}
+function posChip(p){ return el("span","pos "+p.p, p.p); }
+
+function renderRows(M){
+  const box = document.getElementById("rows");
+  box.innerHTML = "";
+  const seg = document.getElementById("posFilter");
+  if(!seg.children.length){
+    ["ALL",...POS].forEach(k => {
+      const b = el("button","seg", k === "ALL" ? "All" : k);
+      b.setAttribute("aria-pressed", String(k === filterPos));
+      b.onclick = () => { filterPos = k; [...seg.children].forEach(c => c.setAttribute("aria-pressed","false"));
+                          b.setAttribute("aria-pressed","true"); render(); };
+      seg.append(b);
+    });
+  }
+  const q = query.trim().toLowerCase();
+  let list = M.avail.slice().sort((a,b) => b.score - a.score);
+  if(filterPos !== "ALL") list = list.filter(p => p.p === filterPos);
+  if(q) list = list.filter(p => p.n.toLowerCase().includes(q) || p.t.toLowerCase() === q);
+  const shown = list.slice(0, 90);
+  if(!shown.length){ box.append(el("div","empty","No available players match that.")); return; }
+
+  shown.forEach((p,i) => {
+    const r = el("div","row");
+    r.tabIndex = 0;
+    r.onclick = () => draft(p.id);
+    r.onkeydown = e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); draft(p.id); } };
+    r.append(el("span","idx", String(i+1)));
+    r.append(posChip(p));
+    const nm = el("div","pname");
+    const n1 = el("div","n"); n1.append(el("span",null,p.n));
+    if(p.tag) n1.append(el("span","tag "+p.tag, p.tag === "INJURED" ? "INJ" : p.tag));
+    nm.append(n1);
+    nm.append(el("div","m", `${p.t}${p.bye ? " · Bye "+p.bye : ""} · ${p.p}${p.pr}${p.note ? " · " + p.note : ""}`));
+    r.append(nm);
+    r.append(el("span","tierbadge", "T"+p.tier));
+    r.append(el("span","cell big", fmt1(p.proj)));
+    const v = el("span","cell hideS " + (p.vor > 0 ? "up" : "down"), (p.vor>0?"+":"") + Math.round(p.vor));
+    r.append(v);
+    const f = el("span","cell " + (p.fall >= 6 ? "up" : "dim"), String(Math.round(p.adp)));
+    r.append(f);
+    r.append(el("span","cell dim hideS", M.myNext ? Math.round(p.surv*100)+"%" : "—"));
+    box.append(r);
+  });
+  if(list.length > shown.length)
+    box.append(el("div","empty", `${list.length - shown.length} more — narrow with search or a position filter.`));
+}
+
+function renderRoster(M){
+  const box = document.getElementById("slots");
+  box.innerHTML = "";
+  const pool = M.mine.slice().sort((a,b) => b.proj - a.proj);
+  const used = new Set();
+  const take = pos => {
+    const p = pool.find(x => x.p === pos && !used.has(x.id));
+    if(p) used.add(p.id);
+    return p;
+  };
+  const line = [];
+  for(const pos of ["QB","RB","WR","TE"])
+    for(let i = 0; i < (S.starters[pos]||0); i++)
+      line.push([ (S.starters[pos]>1 ? pos + (i+1) : pos), take(pos) ]);
+  for(let i = 0; i < (S.starters.FLEX||0); i++){
+    const p = pool.filter(x => FLEX_OK.includes(x.p) && !used.has(x.id)).sort((a,b)=>b.proj-a.proj)[0];
+    if(p) used.add(p.id);
+    line.push(["FLEX", p]);
+  }
+  for(const pos of ["DST","K"])
+    for(let i = 0; i < (S.starters[pos]||0); i++) line.push([pos, take(pos)]);
+
+  let total = 0;
+  line.forEach(([lab, p]) => {
+    const s = el("div","slot" + (p ? "" : " open"));
+    s.append(el("span","lab", lab));
+    s.append(el("span","who", p ? p.n : "—"));
+    s.append(el("span","pts", p ? fmt1(p.proj) : ""));
+    if(p) total += p.proj;
+    box.append(s);
+  });
+  const bench = pool.filter(p => !used.has(p.id));
+  bench.forEach(p => {
+    const s = el("div","slot bench");
+    s.append(el("span","lab","BN"));
+    s.append(el("span","who", p.n));
+    s.append(el("span","pts", fmt1(p.proj)));
+    box.append(s);
+  });
+  for(let i = bench.length; i < S.bench; i++){
+    const s = el("div","slot bench open");
+    s.append(el("span","lab","BN"), el("span","who","—"), el("span","pts",""));
+    box.append(s);
+  }
+  document.getElementById("starterPts").textContent = Math.round(total);
+  document.getElementById("rosterMeta").textContent = `${M.mine.length}/${rounds()} · slot ${S.slot}`;
+}
+
+function renderMeters(M){
+  const box = document.getElementById("meters");
+  box.innerHTML = "";
+  const rows = ["RB","WR","TE","QB"].map(pos => {
+    const best = M.byPos[pos][0];
+    const supply = M.byPos[pos].filter(p => p.ap >= M.base[pos]).length;
+    return {pos, best, supply, cost: best && M.myNext ? Math.max(0, best.ap - M.nextBest[pos]) : 0};
+  }).sort((a,b) => b.cost - a.cost);
+  const worst = Math.max(1, ...rows.map(r => r.cost));
+
+  document.getElementById("waitSub").textContent =
+    M.myNext ? `if you pass until ${label(M.myNext)}` : "—";
+
+  rows.forEach(r => {
+    const m = el("div","meter");
+    const top = el("div","mtop");
+    const nm = el("div","mname"); nm.append(posChip({p:r.pos}), el("span",null,r.pos));
+    top.append(nm, el("span","mval", M.myNext ? `−${r.cost.toFixed(r.cost < 10 ? 1 : 0)} pts` : "—"));
+    const track = el("div","track");
+    const fill = el("div","fill "+r.pos);
+    fill.style.width = Math.max(2, (r.cost / worst) * 100) + "%";
+    track.append(fill);
+    m.append(top, track);
+    const note = el("div","note" + (r.cost >= 12 ? " scarce" : ""));
+    note.textContent = !r.best ? "none left"
+      : r.cost >= 12 ? `Cliff — ${r.best.n} is ${r.cost.toFixed(0)} pts better than the fallback`
+      : r.cost >= 5 ? `${r.supply} startable left · slight edge to acting now`
+      : `Flat — ${r.supply} startable left, safe to wait`;
+    m.append(note);
+    box.append(m);
+  });
+}
+
+function renderLeague(M){
+  const box = document.getElementById("league");
+  box.innerHTML = "";
+  for(let t = 1; t <= S.teams; t++){
+    const row = el("div","tm" + (t === S.slot ? " me" : ""));
+    row.append(el("span","tname", t === S.slot ? "You" : "Team "+t));
+    const bars = el("div","bars");
+    const cnt = {};
+    (M.teamRosters[t]||[]).forEach(p => cnt[p.p] = (cnt[p.p]||0)+1);
+    let any = false;
+    for(const pos of POS){
+      for(let i = 0; i < (cnt[pos]||0); i++){
+        const b = el("span","b "+pos, pos === "DST" ? "D" : pos[0]);
+        bars.append(b); any = true;
+      }
+    }
+    if(!any) bars.append(el("span","none","—"));
+    row.append(bars);
+    box.append(row);
+  }
+  document.getElementById("leagueMeta").textContent = `${S.picks.length} picks in`;
+}
+
+function renderLog(M){
+  const box = document.getElementById("log");
+  box.innerHTML = "";
+  const recent = M.picks.map((p,i) => [i+1, p]).reverse().slice(0, 40);
+  if(!recent.length){ box.append(el("div","empty","No picks recorded yet.")); return; }
+  recent.forEach(([n, p]) => {
+    const t = teamOnPick(n);
+    const r = el("div","lrow" + (t === S.slot ? " mine" : ""));
+    r.append(el("span","pk", label(n)));
+    r.append(posChip(p));
+    r.append(el("span","who", p.n + (t === S.slot ? "" : ` · T${t}`)));
+    box.append(r);
+  });
+  document.getElementById("logMeta").textContent = `${S.picks.length} of ${totalPicks()}`;
+}
+
+/* ---------- actions ---------- */
+function draft(id){
+  if(S.picks.includes(id)) return;
+  if(S.picks.length >= totalPicks()) return;
+  S.picks.push(id); save(); render();
+}
+function undo(){ if(S.picks.length){ S.picks.pop(); save(); render(); } }
+
+document.getElementById("undoBtn").onclick = undo;
+document.getElementById("search").addEventListener("input", e => { query = e.target.value; renderRows(model()); });
+document.getElementById("search").addEventListener("keydown", e => {
+  if(e.key === "Enter"){
+    const first = document.querySelector("#rows .row");
+    if(first) first.click();
+    e.target.value = ""; query = ""; render();
+  }
+});
+document.addEventListener("keydown", e => {
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName);
+  if(e.key === "/" && !typing){ e.preventDefault(); document.getElementById("search").focus(); }
+  if((e.key === "u" || e.key === "U") && !typing && !e.metaKey && !e.ctrlKey){ e.preventDefault(); undo(); }
+});
+document.getElementById("tabbar").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  document.getElementById("app").dataset.view = b.dataset.view;
+  [...e.currentTarget.children].forEach(c => c.setAttribute("aria-pressed", String(c === b)));
+});
+
+/* settings */
+const dlg = $("setup");
+const SLOTS = ["QB","RB","WR","TE","FLEX","DST","K"];
+$("setBtn").onclick = () => {
+  $("fTeams").value = S.teams; $("fSlot").value = S.slot; $("fBench").value = S.bench;
+  $("fSlot").max = S.teams;
+  for(const pos of SLOTS) $("s"+pos).value = S.starters[pos];
+  dlg.showModal();
+};
+dlg.addEventListener("close", () => {
+  if(dlg.returnValue === "save"){
+    S.teams = clamp(+$("fTeams").value, 4, 16);
+    S.slot  = clamp(+$("fSlot").value, 1, S.teams);
+    S.bench = clamp(+$("fBench").value, 0, 12);
+    for(const pos of SLOTS) S.starters[pos] = clamp(+$("s"+pos).value, 0, 6);
+    S.picks = S.picks.slice(0, totalPicks());
+    save(); render();
+  } else if(dlg.returnValue === "reset"){
+    S.picks = []; save(); render();
+  }
+});
+
+render();
+
+/* exposed so the draft engine can be exercised outside the page */
+window.WarRoom = {
+  model, draft, undo, render, byId, PLAYERS, teamOnPick, rounds, totalPicks, label,
+  get state(){ return S; },
+  set state(v){ S = v; }
+};
+</script>
+
+</html>
