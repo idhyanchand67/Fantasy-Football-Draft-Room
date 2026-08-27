@@ -20,8 +20,8 @@
   "tag": "OUT"
  },
  "alec pierce": {
-  "note": "PUP \u2014 Ankle (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "alex bullock": {
   "note": "NA (auto, via Sleeper)",
@@ -84,8 +84,8 @@
   "tag": "RISK"
  },
  "brenden bates": {
-  "note": "IR (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "brenen thompson": {
   "note": "Questionable (auto, via Sleeper)",
@@ -120,7 +120,7 @@
   "tag": "RISK"
  },
  "calvin austin": {
-  "note": "Doubtful \u2014 Knee (auto, via Sleeper)",
+  "note": "IR \u2014 Knee (auto, via Sleeper)",
   "tag": "OUT"
  },
  "carsen ryan": {
@@ -144,8 +144,8 @@
   "tag": "RISK"
  },
  "cedrick wilson": {
-  "note": "IR \u2014 Knee (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "chase curtis": {
   "note": "Questionable \u2014 Knee (auto, via Sleeper)",
@@ -158,10 +158,6 @@
  "chris collier": {
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
- },
- "chris olave": {
-  "note": "Questionable \u2014 Upper Body (auto, via Sleeper)",
-  "tag": "RISK"
  },
  "chris thompson": {
   "note": "Questionable (auto, via Sleeper)",
@@ -183,6 +179,10 @@
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "cole turner": {
+  "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "corey rucker": {
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
@@ -200,8 +200,8 @@
   "tag": "RISK"
  },
  "dante miller": {
-  "note": "IR \u2014 Groin (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Groin (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "daquan felton": {
   "note": "Questionable (auto, via Sleeper)",
@@ -983,6 +983,10 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
+ "wandale robinson": {
+  "note": "Questionable \u2014 Head (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "will dissly": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -1016,6 +1020,10 @@
   "tag": "RISK"
  },
  "zane gonzalez": {
+  "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
+ },
+ "zay flowers": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  }
