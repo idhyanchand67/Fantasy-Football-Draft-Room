@@ -503,6 +503,10 @@ const TUNE = {
   blocked: 0.01,          // an all-but-excluded pick: K/DST you already have, or no room left but K/DST
   kdstUrgent: 6,          // K/DST once the roster is forced to take one
   kdstWait: 0.02,         // K/DST before it's time
+  kdstSuppress: 200,      // flat penalty on top of kdstWait -- a percentage discount alone
+                          // has no floor, and K/DST's VOR can be large early (replacement
+                          // level is thin before anyone's drafted one), so a pure multiplier
+                          // can still let a big-VOR K/DST outrank real bench depth
   flexFill: 0.84,         // fills an open FLEX
   qbBackup: 0.3,         // 2nd QB, not superflex-needed
   qbDeep: 0.05,           // 3rd+ QB
@@ -676,6 +680,9 @@ function model(){
     let bye = 1;
     if(p.bye && (myByes[p.bye] || 0) >= TUNE.byeStackThreshold) bye = TUNE.byeStackPenalty;
     p.score = (p.vor + TUNE.urgencyWeight * p.urgency) * needMult(p.p) * bye;
+    if((p.p === "K" || p.p === "DST") && myNeeds.need[p.p] > 0 && myLeft > mustFill + 1){
+      p.score -= TUNE.kdstSuppress;
+    }
     p.fall = p.adp - cur;
   });
 
