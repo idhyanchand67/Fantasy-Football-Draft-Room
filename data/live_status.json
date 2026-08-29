@@ -3,10 +3,6 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "adam randall": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "adam thielen": {
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
@@ -75,10 +71,6 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "braxton berrios": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "brayden willis": {
   "note": "Questionable \u2014 Concussion (auto, via Sleeper)",
   "tag": "RISK"
@@ -126,6 +118,10 @@
  "calvin austin": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
   "tag": "OUT"
+ },
+ "cam camper": {
+  "note": "Questionable \u2014 Head (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "cameron dicker": {
   "note": "Questionable (auto, via Sleeper)",
@@ -287,10 +283,6 @@
   "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
   "tag": "RISK"
  },
- "elijah higgins": {
-  "note": "Questionable \u2014 Concussion (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "elijah mitchell": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -371,6 +363,10 @@
   "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
   "tag": "RISK"
  },
+ "ihmir smith marsette": {
+  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "irv smith": {
   "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
   "tag": "RISK"
@@ -389,10 +385,6 @@
  },
  "isiah pacheco": {
   "note": "Questionable \u2014 Knee - MCL (auto, via Sleeper)",
-  "tag": "RISK"
- },
- "j michael sturdivant": {
-  "note": "Questionable \u2014 Concussion (auto, via Sleeper)",
   "tag": "RISK"
  },
  "jabari small": {
@@ -715,6 +707,10 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
+ "marvin mims": {
+  "note": "Questionable \u2014 Foot (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "mason fine": {
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
@@ -899,10 +895,6 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "tez johnson": {
-  "note": "Questionable \u2014 Groin (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "theo johnson": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -929,6 +921,10 @@
  },
  "treveyon henderson": {
   "note": "Questionable \u2014 Leg (auto, via Sleeper)",
+  "tag": "RISK"
+ },
+ "trevor etienne": {
+  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
   "tag": "RISK"
  },
  "trey benson": {
@@ -964,8 +960,8 @@
   "tag": "RISK"
  },
  "tyreek hill": {
-  "note": "Questionable \u2014 Knee - ACL (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "Out \u2014 Knee - ACL (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "tyrell shavers": {
   "note": "PUP \u2014 Knee - ACL (auto, via Sleeper)",
@@ -973,6 +969,10 @@
  },
  "tyrone broden": {
   "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
+ },
+ "tyrone tracy": {
+  "note": "Questionable \u2014 Neck (auto, via Sleeper)",
   "tag": "RISK"
  },
  "wandale robinson": {
@@ -1002,10 +1002,6 @@
  "xavier weaver": {
   "note": "IR \u2014 Concussion (auto, via Sleeper)",
   "tag": "OUT"
- },
- "xavier worthy": {
-  "note": "Questionable \u2014 Shoulder (auto, via Sleeper)",
-  "tag": "RISK"
  },
  "zach charbonnet": {
   "note": "PUP \u2014 Knee - ACL (auto, via Sleeper)",
