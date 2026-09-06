@@ -83,7 +83,13 @@ def main():
     # league. Real in-season injury slates run a few percent of players.
     if len(tags) > 400:
         raise SystemExit(f"{len(tags)} players tagged — implausibly high, refusing to write live_status.json")
-    if len(photos) < 1000:
+    # Was 1000, tuned against inflated ~90-man preseason camp rosters. Real
+    # cutdown to 53-man rosters + practice squads permanently drops this to
+    # ~800-900 for the rest of the season (confirmed: 850 rostered QB/RB/WR/
+    # TE/K the day this first tripped, with a normal per-team distribution -
+    # not a bad fetch). 500 stays a safe floor under that range while still
+    # catching an actually broken/empty response.
+    if len(photos) < 500:
         raise SystemExit(f"only {len(photos)} rostered players found — refusing to trust this response")
 
     with open(os.path.join(HERE, "live_status.json"), "w") as f:
