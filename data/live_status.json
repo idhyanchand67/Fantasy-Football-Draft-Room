@@ -331,10 +331,6 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "emanuel wilson": {
-  "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "emeka egbuka": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -780,8 +776,8 @@
   "tag": "RISK"
  },
  "michael penix": {
-  "note": "Questionable \u2014 Knee - ACL (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "Out \u2014 Knee - ACL (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "michael pittman": {
   "note": "Questionable \u2014 Leg (auto, via Sleeper)",
