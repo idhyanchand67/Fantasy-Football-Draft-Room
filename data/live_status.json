@@ -220,7 +220,7 @@
   "tag": "RISK"
  },
  "dandre swift": {
-  "note": "Questionable (auto, via Sleeper)",
+  "note": "Questionable \u2014 Abdomen (auto, via Sleeper)",
   "tag": "RISK"
  },
  "dante miller": {
@@ -418,10 +418,6 @@
  "isaac guerendo": {
   "note": "PUP \u2014 Pectoral (auto, via Sleeper)",
   "tag": "OUT"
- },
- "isaiah bond": {
-  "note": "Questionable \u2014 Concussion (auto, via Sleeper)",
-  "tag": "RISK"
  },
  "isaiah crowell": {
   "note": "Questionable (auto, via Sleeper)",
@@ -1062,10 +1058,6 @@
  "will grier": {
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
- },
- "will kacmarek": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
  },
  "will mallory": {
   "note": "IR \u2014 Thumb (auto, via Sleeper)",
