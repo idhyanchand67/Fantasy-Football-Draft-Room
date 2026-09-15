@@ -231,13 +231,13 @@
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
  },
- "dalen cambre": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "dalevon campbell": {
   "note": "Questionable \u2014 Leg (auto, via Sleeper)",
   "tag": "RISK"
+ },
+ "dallen bentley": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "damien alford": {
   "note": "Questionable (auto, via Sleeper)",
@@ -286,6 +286,10 @@
  "derek carr": {
   "note": "NA \u2014 Personal (auto, via Sleeper)",
   "tag": "OUT"
+ },
+ "derius davis": {
+  "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "desmond reid": {
   "note": "Questionable (auto, via Sleeper)",
@@ -411,6 +415,10 @@
   "note": "Questionable \u2014 Knee - ACL (auto, via Sleeper)",
   "tag": "RISK"
  },
+ "garrett nussmeier": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "gee scott": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -511,6 +519,10 @@
   "note": "Out \u2014 Wrist (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "jalen coker": {
+  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "jalen mcmillan": {
   "note": "Out \u2014 Knee (auto, via Sleeper)",
   "tag": "OUT"
@@ -558,6 +570,10 @@
  "jaquinden jackson": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
+ },
+ "jared wiley": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "jaren kanak": {
   "note": "IR \u2014 Pectoral (auto, via Sleeper)",
@@ -646,6 +662,10 @@
  "jordan james": {
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
+ },
+ "jordan mason": {
+  "note": "Questionable \u2014 Thumb (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "jordan watkins": {
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
@@ -789,6 +809,10 @@
  },
  "mario williams": {
   "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
+ },
+ "marvin mims": {
+  "note": "Questionable \u2014 Hip (auto, via Sleeper)",
   "tag": "RISK"
  },
  "mason fine": {
@@ -939,6 +963,10 @@
   "note": "Out \u2014 Hip (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "sam ehlinger": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "sam scott": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -1080,6 +1108,10 @@
   "tag": "OUT"
  },
  "ty simpson": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
+ "tyler badie": {
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
