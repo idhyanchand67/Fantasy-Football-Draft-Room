@@ -3,10 +3,6 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "aaron jones": {
-  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "adam randall": {
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
@@ -16,8 +12,8 @@
   "tag": "OUT"
  },
  "aidan oconnell": {
-  "note": "Out \u2014 Personal (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Personal (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "ainias smith": {
   "note": "Questionable (auto, via Sleeper)",
@@ -56,27 +52,19 @@
   "tag": "RISK"
  },
  "arian smith": {
-  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "IR \u2014 Knee (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "ashton dulin": {
-  "note": "Out \u2014 Ankle (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "athan kaliakmanis": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "audric estime": {
-  "note": "IR \u2014 Thigh (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Thigh (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "beaux collins": {
   "note": "IR (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "behren morton": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "ben sauls": {
@@ -95,33 +83,13 @@
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
- "blake grupe": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "bo melton": {
-  "note": "Questionable \u2014 Neck (auto, via Sleeper)",
-  "tag": "RISK"
- },
- "brady cook": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "brevin jordan": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "brian robinson": {
-  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "brittain brown": {
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
  },
  "brock bowers": {
-  "note": "Out \u2014 Knee - Meniscus (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Knee - Meniscus (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "brock rechsteiner": {
   "note": "Sus \u2014 Suspension (auto, via Sleeper)",
@@ -144,19 +112,11 @@
   "tag": "OUT"
  },
  "caleb williams": {
-  "note": "Out \u2014 Hamstring (auto, via Sleeper)",
+  "note": "Doubtful \u2014 Hamstring (auto, via Sleeper)",
   "tag": "OUT"
  },
  "calvin austin": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "camden brown": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "carson beck": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "carson towt": {
@@ -169,10 +129,6 @@
  },
  "carter runyon": {
   "note": "IR (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "case keenum": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "caullin lacy": {
@@ -196,8 +152,8 @@
   "tag": "RISK"
  },
  "chig okonkwo": {
-  "note": "Out \u2014 Hamstring (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "chris brazzell": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
@@ -219,20 +175,8 @@
   "note": "IR \u2014 Calf (auto, via Sleeper)",
   "tag": "OUT"
  },
- "cj daniels": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "cj williams": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "cole burgess": {
   "note": "IR (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "cole payton": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "cole turner": {
@@ -256,11 +200,7 @@
   "tag": "RISK"
  },
  "dallas goedert": {
-  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
-  "tag": "RISK"
- },
- "dallen bentley": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "note": "Doubtful \u2014 Knee - MCL (auto, via Sleeper)",
   "tag": "OUT"
  },
  "damien alford": {
@@ -300,7 +240,7 @@
   "tag": "OUT"
  },
  "demarcus robinson": {
-  "note": "Out \u2014 Ankle (auto, via Sleeper)",
+  "note": "Doubtful \u2014 Ankle (auto, via Sleeper)",
   "tag": "OUT"
  },
  "dennis houston": {
@@ -336,16 +276,16 @@
   "tag": "OUT"
  },
  "dj giddens": {
-  "note": "Out \u2014 Knee (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "dj montgomery": {
   "note": "IR \u2014 Abdomen (auto, via Sleeper)",
   "tag": "OUT"
  },
  "dj moore": {
-  "note": "Out \u2014 Shoulder (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Shoulder - AC Joint (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "dj rogers": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
@@ -367,16 +307,8 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "dontae fleming": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "donte thornton": {
   "note": "IR (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "drew allar": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "dt sheffield": {
@@ -407,10 +339,6 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "elijah moore": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "eric mcalister": {
   "note": "Questionable \u2014 Foot (auto, via Sleeper)",
   "tag": "RISK"
@@ -434,10 +362,6 @@
  "gabe davis": {
   "note": "Questionable \u2014 Knee - ACL (auto, via Sleeper)",
   "tag": "RISK"
- },
- "garrett nussmeier": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
  },
  "gee scott": {
   "note": "Questionable (auto, via Sleeper)",
@@ -477,10 +401,6 @@
  },
  "hayden large": {
   "note": "IR (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "haynes king": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "irv charles": {
@@ -531,10 +451,6 @@
   "note": "IR \u2014 Wrist (auto, via Sleeper)",
   "tag": "OUT"
  },
- "jalen tolbert": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "jalen virgil": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -571,24 +487,16 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "jared wiley": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "jaren kanak": {
   "note": "IR \u2014 Pectoral (auto, via Sleeper)",
   "tag": "OUT"
  },
- "jatavion sanders": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "jauan jennings": {
-  "note": "Out \u2014 Personal (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Personal (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "jaxson dart": {
-  "note": "Out \u2014 Knee (auto, via Sleeper)",
+  "note": "Out \u2014 Knee - MCL (auto, via Sleeper)",
   "tag": "OUT"
  },
  "jayden daniels": {
@@ -600,8 +508,12 @@
   "tag": "OUT"
  },
  "jayden reed": {
-  "note": "Out \u2014 Neck (auto, via Sleeper)",
+  "note": "Doubtful \u2014 Neck (auto, via Sleeper)",
   "tag": "OUT"
+ },
+ "jaylen warren": {
+  "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "jaylen wright": {
   "note": "Questionable \u2014 Neck (auto, via Sleeper)",
@@ -643,12 +555,12 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "joe fagnano": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "joe forson": {
   "note": "NA (auto, via Sleeper)",
+  "tag": "OUT"
+ },
+ "joe mixon": {
+  "note": "Out \u2014 Foot (auto, via Sleeper)",
   "tag": "OUT"
  },
  "joe royer": {
@@ -672,20 +584,16 @@
   "tag": "OUT"
  },
  "jonathon brooks": {
-  "note": "Questionable \u2014 Groin (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "IR \u2014 Abdomen (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "jordan mason": {
   "note": "IR \u2014 Thumb (auto, via Sleeper)",
   "tag": "OUT"
  },
- "jordan watkins": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "jordan whittington": {
-  "note": "Out \u2014 Quadriceps (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Quadriceps (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "jordyn tyson": {
   "note": "IR \u2014 Hamstring (auto, via Sleeper)",
@@ -695,16 +603,8 @@
   "note": "NA \u2014 Personal (auto, via Sleeper)",
   "tag": "OUT"
  },
- "josh johnson": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "julian hill": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "justin joly": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "justin shorter": {
@@ -735,37 +635,21 @@
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
- "kendre miller": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "kendrick law": {
   "note": "IR \u2014 Knee - ACL (auto, via Sleeper)",
   "tag": "OUT"
  },
  "kene nwangwu": {
-  "note": "Out \u2014 Back (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Back (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "kenny yeboah": {
   "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
   "tag": "RISK"
  },
- "kurtis rourke": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "kye robichaux": {
   "note": "Questionable \u2014 Foot (auto, via Sleeper)",
   "tag": "RISK"
- },
- "kylen granson": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "kyler murray": {
-  "note": "Out \u2014 Concussion (auto, via Sleeper)",
-  "tag": "OUT"
  },
  "kyron hudson": {
   "note": "Questionable (auto, via Sleeper)",
@@ -807,17 +691,9 @@
   "note": "Questionable \u2014 Foot (auto, via Sleeper)",
   "tag": "RISK"
  },
- "luke mccaffrey": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "luke musgrave": {
   "note": "PUP (auto, via Sleeper)",
   "tag": "OUT"
- },
- "malick meiga": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
  },
  "malik davis": {
   "note": "IR \u2014 Hip (auto, via Sleeper)",
@@ -832,16 +708,16 @@
   "tag": "RISK"
  },
  "marvin mims": {
-  "note": "Out \u2014 Foot (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Foot (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "mason fine": {
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
  "mason taylor": {
-  "note": "Questionable \u2014 Thumb (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "Doubtful \u2014 Thumb (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "mason tipton": {
   "note": "PUP \u2014 Groin (auto, via Sleeper)",
@@ -855,13 +731,9 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "michael penix": {
-  "note": "Out \u2014 Knee - ACL (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "michael pittman": {
-  "note": "Out \u2014 Ankle (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Foot (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "michael woods": {
   "note": "Questionable \u2014 Leg (auto, via Sleeper)",
@@ -883,21 +755,13 @@
   "note": "Questionable \u2014 Lower Body (auto, via Sleeper)",
   "tag": "RISK"
  },
- "montorie foster": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "myles montgomery": {
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
  },
- "nick muse": {
-  "note": "Questionable \u2014 Shoulder (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "nico collins": {
-  "note": "Out \u2014 Hamstring (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "nikola kalinic": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
@@ -928,16 +792,12 @@
   "tag": "OUT"
  },
  "puka nacua": {
-  "note": "Out \u2014 Hip (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Groin (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "quentin moore": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
- },
- "quinn ewers": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
  },
  "raheem blackshear": {
   "note": "Questionable (auto, via Sleeper)",
@@ -955,29 +815,21 @@
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
- "reggie virgil": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "ricky pearsall": {
   "note": "IR \u2014 Knee - PCL (auto, via Sleeper)",
   "tag": "OUT"
  },
  "rico dowdle": {
-  "note": "Out \u2014 Toe (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "riley leonard": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Toe (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "river cracraft": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
  "rj harvey": {
-  "note": "Out \u2014 Hamstring (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "rj maryland": {
   "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
@@ -992,19 +844,11 @@
   "tag": "OUT"
  },
  "ronnie rivers": {
-  "note": "Out \u2014 Calf (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Calf (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "sam darnold": {
-  "note": "Out \u2014 Lower Body (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "sam ehlinger": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "sam scott": {
-  "note": "Questionable (auto, via Sleeper)",
+  "note": "Questionable \u2014 Lower Body (auto, via Sleeper)",
   "tag": "RISK"
  },
  "saquon barkley": {
@@ -1043,28 +887,12 @@
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
  },
- "skyler bell": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "squirrel white": {
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
  "tank dell": {
   "note": "IR \u2014 Knee - ACL + MCL (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "tanner arkin": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "tanner koziol": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "tanner mckee": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "tanner mclachlan": {
@@ -1075,10 +903,6 @@
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
- "taylen green": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "teddy bridgewater": {
   "note": "NA \u2014 Personal (auto, via Sleeper)",
   "tag": "OUT"
@@ -1086,10 +910,6 @@
  "terrell jennings": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
- },
- "thomas fidone": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
  },
  "thomas yassmin": {
   "note": "IR (auto, via Sleeper)",
@@ -1107,6 +927,10 @@
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "tony pollard": {
+  "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "tra barnett": {
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
@@ -1123,25 +947,17 @@
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
  },
- "tua tagovailoa": {
-  "note": "Out \u2014 Oblique (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "ty chandler": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
   "tag": "OUT"
  },
  "ty johnson": {
-  "note": "Out \u2014 Hamstring (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
+  "tag": "RISK"
  },
- "ty simpson": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "tyler goodson": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
+ "tyjae spears": {
+  "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "tyler mabry": {
   "note": "Questionable (auto, via Sleeper)",
@@ -1159,16 +975,16 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
+ "tyson bagent": {
+  "note": "Questionable \u2014 Concussion (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "will dissly": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
  "will grier": {
   "note": "NA (auto, via Sleeper)",
-  "tag": "OUT"
- },
- "will howard": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "will mallory": {
@@ -1183,10 +999,6 @@
   "note": "PUP \u2014 Knee - ACL (auto, via Sleeper)",
   "tag": "OUT"
  },
- "zach wilson": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "zack moss": {
   "note": "Questionable \u2014 Neck (auto, via Sleeper)",
   "tag": "RISK"
@@ -1196,7 +1008,7 @@
   "tag": "RISK"
  },
  "zay flowers": {
-  "note": "Out \u2014 Hamstring (auto, via Sleeper)",
-  "tag": "OUT"
+  "note": "Questionable \u2014 Hamstring (auto, via Sleeper)",
+  "tag": "RISK"
  }
 }
