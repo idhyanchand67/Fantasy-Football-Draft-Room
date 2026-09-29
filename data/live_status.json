@@ -239,6 +239,10 @@
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "cole payton": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "cole turner": {
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
@@ -336,7 +340,7 @@
   "tag": "OUT"
  },
  "devon achane": {
-  "note": "Out \u2014 Knee (auto, via Sleeper)",
+  "note": "IR \u2014 Knee - ACL (auto, via Sleeper)",
   "tag": "OUT"
  },
  "dez fitzpatrick": {
@@ -564,8 +568,8 @@
   "tag": "OUT"
  },
  "jalen mcmillan": {
-  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "Out \u2014 Knee - PCL (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "jalen milroe": {
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
@@ -691,10 +695,6 @@
   "note": "PUP \u2014 Personal (auto, via Sleeper)",
   "tag": "OUT"
  },
- "john fitzpatrick": {
-  "note": "Questionable \u2014 Achilles (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "john jiles": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -722,6 +722,10 @@
  "jordyn tyson": {
   "note": "IR \u2014 Hamstring (auto, via Sleeper)",
   "tag": "OUT"
+ },
+ "josh allen": {
+  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "josh jacobs": {
   "note": "NA \u2014 Personal (auto, via Sleeper)",
@@ -890,10 +894,6 @@
  "mike evans": {
   "note": "Out \u2014 Ribs (auto, via Sleeper)",
   "tag": "OUT"
- },
- "miles kitselman": {
-  "note": "Questionable \u2014 Leg (auto, via Sleeper)",
-  "tag": "RISK"
  },
  "moliki matavao": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
@@ -1067,6 +1067,10 @@
   "note": "IR \u2014 Knee - ACL + MCL (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "tanner mckee": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "tanner mclachlan": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -1149,6 +1153,10 @@
  },
  "tyjae spears": {
   "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
+  "tag": "RISK"
+ },
+ "tylan wallace": {
+  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
   "tag": "RISK"
  },
  "tyler conklin": {
