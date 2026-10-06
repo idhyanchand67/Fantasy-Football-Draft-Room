@@ -39,6 +39,10 @@
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "alvin kamara": {
+  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "andre baccellia": {
   "note": "Questionable \u2014 Neck (auto, via Sleeper)",
   "tag": "RISK"
@@ -243,6 +247,10 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
+ "cooper rush": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "corey rucker": {
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
@@ -269,10 +277,6 @@
  },
  "danny gray": {
   "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
- },
- "dante miller": {
-  "note": "Questionable \u2014 Groin (auto, via Sleeper)",
   "tag": "RISK"
  },
  "daquan felton": {
@@ -523,6 +527,10 @@
   "note": "IR \u2014 Forearm (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "jack strand": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "jacoby jones": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -576,10 +584,6 @@
   "tag": "OUT"
  },
  "jamal agnew": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
- },
- "jamari thrash": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
@@ -638,6 +642,10 @@
  "jeremiah webb": {
   "note": "IR \u2014 Arm (auto, via Sleeper)",
   "tag": "OUT"
+ },
+ "jeremiyah love": {
+  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "jeremy mcnichols": {
   "note": "IR \u2014 Quadriceps (auto, via Sleeper)",
@@ -924,8 +932,8 @@
   "tag": "OUT"
  },
  "noah fant": {
-  "note": "Questionable \u2014 Abdomen (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "Out \u2014 Abdomen (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "noah whittington": {
   "note": "Out \u2014 Quadriceps (auto, via Sleeper)",
@@ -1076,8 +1084,8 @@
   "tag": "OUT"
  },
  "tank bigsby": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "Out \u2014 Lower Body (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "tank dell": {
   "note": "IR \u2014 Knee - ACL + MCL (auto, via Sleeper)",
@@ -1217,6 +1225,10 @@
  },
  "zach charbonnet": {
   "note": "PUP \u2014 Knee - ACL (auto, via Sleeper)",
+  "tag": "OUT"
+ },
+ "zach wilson": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "zack moss": {
