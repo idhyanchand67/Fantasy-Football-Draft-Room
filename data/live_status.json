@@ -215,6 +215,10 @@
   "note": "IR \u2014 Calf (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "cj daniels": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "cj williams": {
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
@@ -348,8 +352,8 @@
   "tag": "OUT"
  },
  "dj moore": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "Out \u2014 Shoulder - AC Joint (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "dj rogers": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
@@ -815,10 +819,6 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
- "luke grimm": {
-  "note": "Questionable (auto, via Sleeper)",
-  "tag": "RISK"
- },
  "luke lachey": {
   "note": "Questionable \u2014 Foot (auto, via Sleeper)",
   "tag": "RISK"
@@ -876,6 +876,10 @@
   "tag": "OUT"
  },
  "max brosmer": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
+ "max klare": {
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
@@ -1108,8 +1112,8 @@
   "tag": "OUT"
  },
  "tanner hudson": {
-  "note": "Questionable \u2014 Pectoral (auto, via Sleeper)",
-  "tag": "RISK"
+  "note": "Out \u2014 Pectoral (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "tanner mclachlan": {
   "note": "Questionable (auto, via Sleeper)",
@@ -1189,6 +1193,10 @@
  },
  "ty chandler": {
   "note": "IR \u2014 Knee (auto, via Sleeper)",
+  "tag": "OUT"
+ },
+ "ty simpson": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "tylan wallace": {
