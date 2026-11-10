@@ -163,8 +163,16 @@
   "note": "Questionable \u2014 Knee (auto, via Sleeper)",
   "tag": "RISK"
  },
+ "charlie jones": {
+  "note": "Questionable \u2014 Thumb (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "chase roberts": {
   "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
+ },
+ "chig okonkwo": {
+  "note": "Questionable \u2014 Hip (auto, via Sleeper)",
   "tag": "RISK"
  },
  "chris brazzell": {
@@ -211,6 +219,10 @@
   "note": "IR (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "colson yankoff": {
+  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
+  "tag": "RISK"
+ },
  "connor hulstein": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -241,6 +253,10 @@
  },
  "daquan felton": {
   "note": "Questionable (auto, via Sleeper)",
+  "tag": "RISK"
+ },
+ "darnell mooney": {
+  "note": "Questionable \u2014 Chest (auto, via Sleeper)",
   "tag": "RISK"
  },
  "darren carrington": {
@@ -483,10 +499,6 @@
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
- "jackson meeks": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
- },
  "jacob saylors": {
   "note": "Out \u2014 Neck (auto, via Sleeper)",
   "tag": "OUT"
@@ -650,6 +662,10 @@
  "jonathon brooks": {
   "note": "IR \u2014 Abdomen (auto, via Sleeper)",
   "tag": "OUT"
+ },
+ "jordan whittington": {
+  "note": "Questionable \u2014 Back (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "josh jacobs": {
   "note": "Out \u2014 Finger (auto, via Sleeper)",
@@ -1009,6 +1025,10 @@
  },
  "skylar thompson": {
   "note": "IR (auto, via Sleeper)",
+  "tag": "OUT"
+ },
+ "skyler bell": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "skyy moore": {
