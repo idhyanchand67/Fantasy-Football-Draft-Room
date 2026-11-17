@@ -47,12 +47,12 @@
   "note": "Questionable \u2014 Leg (auto, via Sleeper)",
   "tag": "RISK"
  },
- "anthony torres": {
-  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
+ "anthony gould": {
+  "note": "Questionable \u2014 Toe (auto, via Sleeper)",
   "tag": "RISK"
  },
- "antonio gibson": {
-  "note": "Questionable \u2014 Knee - ACL (auto, via Sleeper)",
+ "anthony torres": {
+  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
   "tag": "RISK"
  },
  "arian smith": {
@@ -100,7 +100,7 @@
   "tag": "OUT"
  },
  "brenen thompson": {
-  "note": "Doubtful \u2014 Hamstring (auto, via Sleeper)",
+  "note": "Out \u2014 Hamstring (auto, via Sleeper)",
   "tag": "OUT"
  },
  "brevin jordan": {
@@ -365,6 +365,10 @@
  },
  "elijah arroyo": {
   "note": "IR \u2014 Shoulder (auto, via Sleeper)",
+  "tag": "OUT"
+ },
+ "elijah sarratt": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
  "emanuel wilson": {
@@ -699,6 +703,10 @@
   "note": "NA (auto, via Sleeper)",
   "tag": "OUT"
  },
+ "kedon slovis": {
+  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "kejon owens": {
   "note": "Questionable \u2014 Illness (auto, via Sleeper)",
   "tag": "RISK"
@@ -890,6 +898,10 @@
  "omar cooper": {
   "note": "Out \u2014 Ankle (auto, via Sleeper)",
   "tag": "OUT"
+ },
+ "oronde gadsden": {
+  "note": "Questionable \u2014 Eye (auto, via Sleeper)",
+  "tag": "RISK"
  },
  "parris campbell": {
   "note": "NA (auto, via Sleeper)",
