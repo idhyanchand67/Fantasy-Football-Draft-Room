@@ -67,9 +67,13 @@
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
- "ben vansumeren": {
-  "note": "Questionable \u2014 Knee (auto, via Sleeper)",
+ "ben skowronek": {
+  "note": "Questionable \u2014 Calf (auto, via Sleeper)",
   "tag": "RISK"
+ },
+ "ben vansumeren": {
+  "note": "IR \u2014 Knee (auto, via Sleeper)",
+  "tag": "OUT"
  },
  "benjarvus green ellis": {
   "note": "NA (auto, via Sleeper)",
@@ -281,6 +285,10 @@
  },
  "dennis houston": {
   "note": "Questionable \u2014 Groin (auto, via Sleeper)",
+  "tag": "RISK"
+ },
+ "denzel boston": {
+  "note": "Questionable \u2014 Toe (auto, via Sleeper)",
   "tag": "RISK"
  },
  "derek carr": {
@@ -623,6 +631,10 @@
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
  },
+ "jk dobbins": {
+  "note": "Sus \u2014 Suspension (auto, via Sleeper)",
+  "tag": "OUT"
+ },
  "jmon moore": {
   "note": "Questionable (auto, via Sleeper)",
   "tag": "RISK"
@@ -726,10 +738,6 @@
  "keaton mitchell": {
   "note": "Questionable \u2014 Back (auto, via Sleeper)",
   "tag": "RISK"
- },
- "kedon slovis": {
-  "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
-  "tag": "OUT"
  },
  "kejon owens": {
   "note": "Questionable \u2014 Illness (auto, via Sleeper)",
@@ -991,12 +999,12 @@
   "note": "Out \u2014 Coach's Decision (auto, via Sleeper)",
   "tag": "OUT"
  },
- "saquon barkley": {
-  "note": "Questionable \u2014 Arm (auto, via Sleeper)",
+ "sam laporta": {
+  "note": "Questionable \u2014 Ankle (auto, via Sleeper)",
   "tag": "RISK"
  },
- "sean mckeon": {
-  "note": "Questionable (auto, via Sleeper)",
+ "saquon barkley": {
+  "note": "Questionable \u2014 Arm (auto, via Sleeper)",
   "tag": "RISK"
  },
  "sergio bailey": {
